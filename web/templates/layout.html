@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Sprinkler</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+
+    <nav>
+      <ul class='nav-bar'>
+        <li style="float:left">
+          <a class="nav-links" href="/"> Sprinkler</a>
+        </li>
+        <li class="nav-items">
+          <a class="nav-links" href="/">LogIn</a>
+        </li>
+      </ul>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flash-messages">
+      {% for category, message in messages %}
+      <li class={{ category }}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+
+    {% block container %}
+    {% endblock %}
+    </div>
+    <footer class='footer'>
+      &copy;2017
+    </footer>
+  </body>
+</html>

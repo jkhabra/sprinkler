@@ -1,0 +1,266 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.nav-bar {
+    width: 100%;
+    background-color: #ec6666;
+    list-style-type: none;
+    overflow: hidden;
+    border-bottom: 1px solid gainsboro;
+}
+
+.nav-items{
+    float: right;
+}
+
+.nav-links{
+    display: inline-block;
+    color: #e6e5e5;
+    text-align: center;
+    padding: 20px 15px;
+    text-decoration: none;
+}
+
+.nav-links:hover {
+    text-decoration:none;
+    background-color: #fff;
+    color: black;
+}
+
+.container {
+    background-color: initial;
+    padding-top: 15px;
+}
+
+.header {
+    text-align: left;
+    margin: 14px 0px 30px 75px;
+    font-family: sans-serif;
+}
+
+.post-list {
+    overflow: hidden;
+    max-width: 1150px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.post {
+    margin-left: 40px;
+    height: 445px;
+    list-style-type: none;
+}
+
+.title-container {
+    /*border: 1px solid gainsboro;
+    border-top-right-radius: 5px;*/
+    margin-bottom: 9px;
+    width: 590px;
+}
+
+.post-title{
+    color: #312a2a;
+    font-family: sans-serif;
+    font-size: inherit;
+}
+
+.thumb {
+    height: 340px;
+    width: 650px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.publish {
+    margin-top: 7px;
+    padding: 5px 0px 5px 5px;
+}
+
+.publish-button {
+    background-color:#ec6666;
+	  -moz-border-radius:28px;
+	  -webkit-border-radius:28px;
+	  border-radius:3px;
+	  border:1px solid #ec6666;
+	  display:inline-block;
+	  cursor:pointer;
+	  color:#ffffff;
+	  font-family:Arial;
+	  font-size:12px;
+	  padding:7px 10px;
+	  text-decoration:none;
+	  text-shadow:0px 1px 0px #2f6627;
+}
+.publish-button:hover {
+	  background-color: #de5353;
+}
+.publish-button:active {
+	  position:relative;
+	  top:1px;
+}
+
+.footer {
+    background-color: #ec6666;
+    width: 100%;
+    color: #fff;
+    padding: 25px;
+    font-size: 13px;
+}
+
+/* Styles for login template */
+
+.login-container {
+    padding: 75px;
+}
+
+.login-header {
+    text-align: center;
+    padding: 40px;
+    font-size: 37px;
+    color: #9c9898;
+
+}
+
+form.login {
+    margin: 10px auto;
+    /* border: 1px solid; */
+    border-radius: 6px;
+    background: #e7e9ea;
+    width: 435px;
+    padding-bottom: 40px;
+}
+
+.input{
+    display: block;
+    width: 90%;
+    padding: 18px 0 20px 0px;
+    margin-bottom: 15px;
+    margin-left: 25px;
+    text-align: center;
+    background: #f5f2f3;
+    border-radius: 6px;
+    border: none;
+    font-size: 15px;
+}
+
+button.input {
+    background: #ec6666;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Styles for sing up template */
+
+.signup-container {
+    padding: 50px;
+}
+
+.singup-header {
+    text-align: center;
+    padding: 25px;
+    font-size: 37px;
+    color: #9c9898;
+}
+
+.signup{
+    margin: 10px auto;
+    /* border: 1px solid; */
+    border-radius: 6px;
+    background: #e7e9ea;
+    width: 435px;
+    padding-bottom: 30px;
+}
+
+#name {
+    display: inline-block;
+    width: 42%;
+}
+
+.signup-input {
+    display: block;
+    width: 90%;
+    padding: 18px 0 20px 0px;
+    margin-bottom: 15px;
+    margin-left: 22px;
+    text-align: center;
+    background: #f5f2f3;
+    border-radius: 6px;
+    border: none;
+    font-size: 15px;
+}
+
+button.signup-input {
+    text-decoration: none;
+    color: white;
+    background: #ec6666;
+    cursor: pointer;
+}
+
+/* START flash messages */
+
+.flash-messages {}
+
+.error,
+.success,
+.message {
+    margin: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    animation: seconds 1.0s forwards;
+    animation-iteration-count: 1;
+    animation-delay: 5s;
+    list-style-type: none;
+    display: block;
+    box-sizing: border-box;
+}
+
+.error {
+    background: pink;
+    color: red;
+}
+
+.success {
+    background: #d3e088;
+    color: #0c9e0c;
+}
+
+.message {
+    background: #eee;
+    color: #666;
+}
+
+@-webkit-keyframes seconds {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+        height: 0;
+    }
+}
+
+/* END flash messages  */
+
+.signup-message {
+    text-align: center;
+    width: 100%;
+    color: #988b8b;
+}
+
+.signup-form {
+    text-decoration: none;
+    color: #ec6666;
+}
+
+.signup-form:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
