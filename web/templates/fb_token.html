@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<div class='loader'>
+  <div class='loader2'></div>
+</div>
+<h2 class='loader-text'> Please wait we are almost done.......</h2>
+
+<script>
+ var data = window.location.hash.slice(1);
+ var next_url = window.location.pathname + '?' + data;
+
+ window.location.href = next_url;
+</script>
+{% endblock %}

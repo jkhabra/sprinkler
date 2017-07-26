@@ -11,7 +11,11 @@
           <a class="nav-links" href="/"> Sprinkler</a>
         </li>
         <li class="nav-items">
-          <a class="nav-links" href="/">LogIn</a>
+          {% if request.path == '/' %}
+          <a class="nav-links" style='display:none' href="/">LogIn</a>
+          {% else %}
+          <a class='nav-links' href='/logout'> LogOut</a>
+          {% endif %}
         </li>
       </ul>
     </nav>
@@ -25,7 +29,6 @@
     </ul>
     {% endif %}
     {% endwith %}
-
 
     {% block container %}
     {% endblock %}

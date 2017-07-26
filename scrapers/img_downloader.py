@@ -2,8 +2,8 @@ from os import path, listdir, makedirs
 from bs4 import BeautifulSoup
 from requests import get
 import wget
-from db.models import Post, Image
-from db.db_session import get_session
+from models import Post, Image
+from db import get_session
 
 
 def url_from_db():
@@ -102,16 +102,14 @@ def images_to_db():
         local_url = '/static/images/'+i
 
         db_session = get_session()
-        if db_session.query(Image).filter(Image.id == img_id):
-            #new_image = db_session.query(Image).update({Image.local_url : local_url})
-            old_image = Image().filter(Image.id == img_id)
+        old_image = db_session.query(Image).filter(Image.id == img_id)
 
-            if old_image:
-                query = old_image.update(local_url=local_url)
-            else:
-                query = Image(local_url=local_url)
-
-            #print('tabel_id: ' + i.id)
+        if old_image:
+            query = old_image.one()
+            query.local_url = local_url
+        else:
+            query = Image(local_url=local_url)
             db_session.add(query)
-            db_session.commit()
+
+        db_session.commit()
 

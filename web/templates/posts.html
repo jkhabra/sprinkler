@@ -13,10 +13,10 @@
           {{post.Post.title}}
         </h2>
       </div>
-      <div class="thumb" style="background-image: url({{post.Image.url}})">
-        {% if post.Image.url.endswith('.mp4') %}
+      <div class="thumb" style="background-image: url({{post.Image.local_url}})">
+        {% if post.Image.local_url.endswith('.mp4') %}
         <video class="thumb" autoplay='autoplay' loop muted>
-          <source src={{post.Image.url}} type="video/mp4">
+          <source src={{post.Image.local_url}} type="video/mp4">
           Your browser does not support the video tag.
         </video>
         {%endif%}

@@ -113,154 +113,33 @@
     font-size: 13px;
 }
 
-/* Styles for login template */
+/* styles for login template*/
 
-.login-container {
-    padding: 75px;
+.login-menu {
+  height: 40em;
 }
 
-.login-header {
-    text-align: center;
-    padding: 40px;
-    font-size: 37px;
-    color: #9c9898;
-
+.login-menu2 {
+  height: 25em;
+  width: 35em;
+  margin: auto;
+  margin-top: 10em;
+  background-color: #eee;
 }
 
-form.login {
-    margin: 10px auto;
-    /* border: 1px solid; */
-    border-radius: 6px;
-    background: #e7e9ea;
-    width: 435px;
-    padding-bottom: 40px;
+.login-menu3 {
+  text-align: center;
+  padding-top: 5em;
+  padding-bottom: 3em;
 }
 
-.input{
-    display: block;
-    width: 90%;
-    padding: 18px 0 20px 0px;
-    margin-bottom: 15px;
-    margin-left: 25px;
-    text-align: center;
-    background: #f5f2f3;
-    border-radius: 6px;
-    border: none;
-    font-size: 15px;
-}
-
-button.input {
-    background: #ec6666;
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
-}
-
-/* Styles for sing up template */
-
-.signup-container {
-    padding: 50px;
-}
-
-.singup-header {
-    text-align: center;
-    padding: 25px;
-    font-size: 37px;
-    color: #9c9898;
-}
-
-.signup{
-    margin: 10px auto;
-    /* border: 1px solid; */
-    border-radius: 6px;
-    background: #e7e9ea;
-    width: 435px;
-    padding-bottom: 30px;
-}
-
-#name {
-    display: inline-block;
-    width: 42%;
-}
-
-.signup-input {
-    display: block;
-    width: 90%;
-    padding: 18px 0 20px 0px;
-    margin-bottom: 15px;
-    margin-left: 22px;
-    text-align: center;
-    background: #f5f2f3;
-    border-radius: 6px;
-    border: none;
-    font-size: 15px;
-}
-
-button.signup-input {
-    text-decoration: none;
-    color: white;
-    background: #ec6666;
-    cursor: pointer;
-}
-
-/* START flash messages */
-
-.flash-messages {}
-
-.error,
-.success,
-.message {
-    margin: 20px;
-    padding: 10px;
-    border-radius: 6px;
-    animation: seconds 1.0s forwards;
-    animation-iteration-count: 1;
-    animation-delay: 5s;
-    list-style-type: none;
-    display: block;
-    box-sizing: border-box;
-}
-
-.error {
-    background: pink;
-    color: red;
-}
-
-.success {
-    background: #d3e088;
-    color: #0c9e0c;
-}
-
-.message {
-    background: #eee;
-    color: #666;
-}
-
-@-webkit-keyframes seconds {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        display: none;
-        height: 0;
-    }
-}
-
-/* END flash messages  */
-
-.signup-message {
-    text-align: center;
-    width: 100%;
-    color: #988b8b;
-}
-
-.signup-form {
-    text-decoration: none;
-    color: #ec6666;
-}
-
-.signup-form:hover {
-    text-decoration: underline;
-    cursor: pointer;
+a.fb-button {
+  /* text-align: center; */
+  text-decoration: none;
+  border: 1px solid #ec6669;
+  padding: 12px 40px 12px 40px;
+  background: #ec6666;
+  color: #fff;
+  border-radius: 5px;
+  margin-left: 14em;
 }

@@ -1,7 +1,7 @@
 import json
 from requests import get
-from db.models import Post, RedditUser, Image
-from db.db_session import get_session
+from models import Post, RedditUser, Image
+from db import get_session
 
 
 headers = {
