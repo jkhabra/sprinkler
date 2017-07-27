@@ -99,7 +99,7 @@ def images_to_db():
     for i in img:
         urls = i.strip().split('.')
         img_id = urls[0]
-        local_url = '/static/images/'+i
+        local_url = 'static/images/'+i
 
         db_session = get_session()
         old_image = db_session.query(Image).filter(Image.id == img_id)

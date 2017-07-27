@@ -1,4 +1,5 @@
 from flask import Flask, render_template, session, redirect, request, flash
+from flask.json import jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user, logout_user
 from facebook import GraphAPI
 from os import path
@@ -39,10 +40,10 @@ def login():
 @app.route('/accept-fb-token')
 def accept_fb_token():
     if request.args.get('access_token'):
-        fb_token = request.args.get('access_token')
+        session['fb_token'] = request.args.get('access_token')
 
         try:
-            graph = GraphAPI(access_token = fb_token)
+            graph = GraphAPI(access_token = session['fb_token'])
             profile = graph.get_object('me')
             args = {'fields' : 'id,name,email'}
             profile = graph.get_object('me', **args)
@@ -58,11 +59,11 @@ def accept_fb_token():
         s_user = db_session.query(User).filter(User.email == email).one()
 
         if not s_user:
-            new_user = User(email=email, name=name, access_token=fb_token)
+            new_user = User(email=email, name=name, access_token=['fb_token'])
             db_session.add(new_user)
             db_session.commit()
         else:
-            s_user.access_token = fb_token
+            s_user.access_token = session['fb_token']
 
         db_session.commit()
         login_user(s_user)
@@ -87,3 +88,33 @@ def show_posts():
 def logout():
     logout_user()
     return redirect('/') 
+
+
+@app.route('/publish-photo')
+def publish_photo():
+    image_id = request.args.get('id')
+    db_session = get_session()
+
+    try:
+        image_title = db_session.query(Post).filter(Post.id == image_id).one()
+        image_path = db_session.query(Image).filter(Image.id == image_id).one()
+    except Exception as error:
+        return jsonify({
+            'status': 'error',
+            'message': 'Could not find image to publish :-('
+        })
+
+    try:
+        graph = GraphAPI(access_token=session['fb_token'])
+        image = open(path.abspath('web/'+image_path.local_url), 'rb').read()
+
+        graph.put_photo(image, message=image_title.title)
+    except Exception as error:
+        return jsonify({
+            'status': 'error',
+            'message': 'Could not publish post. Sorry :-('
+        })
+
+    return jsonify({
+        'status': 'success'
+    })

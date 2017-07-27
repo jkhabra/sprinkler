@@ -13,21 +13,26 @@
           {{post.Post.title}}
         </h2>
       </div>
-      <div class="thumb" style="background-image: url({{post.Image.local_url}})">
+      <div class="thumb">
         {% if post.Image.local_url.endswith('.mp4') %}
-        <video class="thumb" autoplay='autoplay' loop muted>
+        <video class="post-video" autoplay='autoplay' loop muted>
           <source src={{post.Image.local_url}} type="video/mp4">
           Your browser does not support the video tag.
         </video>
+        {% else %}
+        <img class='post-image' src='{{post.Image.local_url}}' alt='post_image'>
         {%endif%}
       </div>
       <div class="publish">
         <span class="publish-icon">
-          <button type="button" class="publish-button">Publish</button>
+          <button type="button" class="publish-button" data-photo-id={{post.Image.local_url.split('.')[0].split('/')[-1]}} >Publish</button>
         </span>
       </div>
       {% endfor %}
     </li>
   </ul>
 </div>
+
+<script src='/static/script.js'></script>
+
 {% endblock %}
