@@ -67,6 +67,7 @@ def accept_fb_token():
 
         db_session.commit()
         login_user(s_user)
+        db_session.close()
 
         return redirect('/posts')
 
@@ -81,6 +82,7 @@ def show_posts():
     """
     db_session = get_session()
     data = db_session.query(Post, Image).join(Image).filter(Image.local_url != None)
+    db_session.close()
 
     return render_template('posts.html', posts=data)
 
@@ -96,8 +98,9 @@ def publish_photo():
     db_session = get_session()
 
     try:
-        image_title = db_session.query(Post).filter(Post.id == image_id).one()
-        image_path = db_session.query(Image).filter(Image.id == image_id).one()
+        image_title = db_session.query(Post).filter(Post.id == image_id.split('.')[0]).one()
+        image_path = 'web/static/images/{}'.format(image_id)
+        accept_token = db_session.query(User).one()
     except Exception as error:
         return jsonify({
             'status': 'error',
@@ -105,15 +108,18 @@ def publish_photo():
         })
 
     try:
-        graph = GraphAPI(access_token=session['fb_token'])
-        image = open(path.abspath('web/'+image_path.local_url), 'rb').read()
+        graph = GraphAPI(accept_token.access_token)
+        image = open(path.abspath(image_path), 'rb')
 
-        graph.put_photo(image, message=image_title.title)
+        graph.put_photo(image.read(), message=image_title.title)
     except Exception as error:
+        print(error)
         return jsonify({
             'status': 'error',
             'message': 'Could not publish post. Sorry :-('
         })
+
+    db_session.close()
 
     return jsonify({
         'status': 'success'
