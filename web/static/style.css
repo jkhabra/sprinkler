@@ -24,6 +24,7 @@
     text-align: center;
     padding: 20px 15px;
     text-decoration: none;
+    font-family: Georgia;
 }
 
 .nav-links:hover {
@@ -40,7 +41,7 @@
 .header {
     text-align: left;
     margin: 14px 0px 30px 75px;
-    font-family: sans-serif;
+    font-family:  Verdana;
 }
 
 .post-list {
@@ -64,8 +65,8 @@
 
 .post-title{
   color: #312a2a;
-  font-family: sans-serif;
-  font-size: inherit;
+  font-family: Times New Roman;
+  font-weight: 300;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -74,18 +75,62 @@
 .thumb {
     height: 15em;
     cursor: pointer;
-    background-repeat: no-repeat;
-    background-size: cover;
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,.75);
+}
+
+.thumb2{
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(4px);
+}
+
+.thumb3{
+  webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+
+.success, .error {
+  z-index: 100;
+  font-family: courier;
+  position: absolute;
+  color: #fff;
+  font-size: 2vw;
+  font-weight: bold;
+  margin-left: 4em;
+  margin-top: 2em;
+  width: 17%;
+  line-height: 1.5;
+  text-shadow: 0 0 1px #fff, 0 1px 2px rgba(0,0,0,0.45);
+}
+
+.error{
+  text-shadow: 0 0 1px rgba(212, 69, 69, 0.44), 0 1px 2px rgba(199, 39, 39, 0.45);
+  color: #f33535;
+}
+
+.spinner{
+  position: absolute;
+  z-index: 100;
+  margin-left: 12em;
+  margin-top: 6em;
+  border: 5px solid #fff;
+  border-bottom: 5px solid rgba(34, 34, 34, 0.03);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .post-image {
   width: 100%;
   height: 15em;
-}
-
-.publish {
-    margin-top: 7px;
-    padding: 5px 0px 5px 5px;
 }
 
 .publish-button {
@@ -101,7 +146,14 @@
 	  padding:7px 10px;
 	  text-decoration:none;
 	  text-shadow:0px 1px 0px #2f6627;
+    margin-top: 7px;
 }
+
+.disabled{
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .publish-button:hover {
 	  background-color: #de5353;
 }

@@ -14,8 +14,11 @@
         </h2>
       </div>
       <div class="thumb">
+        <div class='spinner' style='display:none'></div>
+        <p class='error' style='display:none'>Could not publish post. Sorry</p>
+        <p class='success' style='display:none'>Your post successfully posted to Facebook</p>
         {% if post.Image.local_url.endswith('.mp4') %}
-        <video class="post-video" autoplay='autoplay' loop muted>
+        <video class="post-image" autoplay='autoplay' loop muted>
           <source src={{post.Image.local_url}} type="video/mp4">
           Your browser does not support the video tag.
         </video>
@@ -23,11 +26,7 @@
         <img class='post-image' src='{{post.Image.local_url}}' alt='post_image'>
         {%endif%}
       </div>
-      <div class="publish">
-        <span class="publish-icon">
           <button type="button" class="publish-button" data-photo-id={{post.Image.local_url.split('/')[-1]}} >Publish</button>
-        </span>
-      </div>
       {% endfor %}
     </li>
   </ul>
