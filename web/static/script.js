@@ -8,7 +8,7 @@ for (let i = 0; i < allButtons.length; i++) {
     let url = '/publish-photo?id=' + btn.dataset.photoId;
     let parent = btn.parentNode;
     parent.querySelector('.spinner').style.display='';
-    parent.querySelector('.thumb').style.background='black';
+    parent.querySelector('.color').style.background='black';
     parent.querySelector('.post-image').style.opacity='0.5';
 
     fetch(url)
@@ -24,11 +24,13 @@ for (let i = 0; i < allButtons.length; i++) {
           parent.querySelector('.post-image').classList.add('thumb2');
           parent.querySelector('.success').style.display='';
         }
-        else {
-          throw new Error('Failed to publish image' || res.status === 'error');
+        if (res.status === 'error'){
           parent.querySelector('.spinner').style.display='none';
           parent.querySelector('.post-image').classList.add('thumb3');
           parent.querySelector('.error').style.display='';
+        }
+        else {
+          throw new Error('Failed to publish image');
         }
       })
       .catch(function(error) {
@@ -36,6 +38,5 @@ for (let i = 0; i < allButtons.length; i++) {
       });
     btn.classList.add('disabled');
     btn.setAttribute('disabled', 'disabled');
-
   });
 }

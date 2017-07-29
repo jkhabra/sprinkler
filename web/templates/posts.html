@@ -3,19 +3,31 @@
 
 <div class='container'>
   <h1 class='header'>Today's Posts</h1>
+  <div class='side-options'>
+    <a class='side-item' href='#'>
+      <div class='side-mark side-icon'></div>
+      <div class='side-text text1'>Select posts</div>
+      <div class='dvider'></div>
+    </a>
+    <a class='side-item2' href='#'>
+      <div class='side-sch side-icon'></div>
+      <div class='side-text text2'>Schedule publish time</div>
+      <div class='dvider'></div>
+    </a>
+  </div>
   <ul class='post-list'>
     {% for post in posts %}
 
     <li class ="post"">
-
-      <div class="title-container">
-        <h2 class="post-title">
-          {{post.Post.title}}
-        </h2>
-      </div>
       <div class="thumb">
+        <div class="title-container">
+          <h3 class="post-title">
+            {{post.Post.title}}
+          </h3>
+        </div>
+        <div class='color'>
         <div class='spinner' style='display:none'></div>
-        <p class='error' style='display:none'>Could not publish post. Sorry</p>
+        <p class='error' style='display:none'>Could not publish this post,please login again</p>
         <p class='success' style='display:none'>Your post successfully posted to Facebook</p>
         {% if post.Image.local_url.endswith('.mp4') %}
         <video class="post-image" autoplay='autoplay' loop muted>
@@ -25,6 +37,7 @@
         {% else %}
         <img class='post-image' src='{{post.Image.local_url}}' alt='post_image'>
         {%endif%}
+      </div>
       </div>
           <button type="button" class="publish-button" data-photo-id={{post.Image.local_url.split('/')[-1]}} >Publish</button>
       {% endfor %}
