@@ -28,10 +28,47 @@
     font-family: Georgia;
 }
 
+.dropdown .dropbtn {
+  border: none;
+  outline: none;
+}
+
+.container a:hover, .dropdown:hover .dropbtn {
+  background-color: #fff;
+  color: #111;
+}
+
+.dropdown-content {
+  display: none;
+  margin-top: 1px;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 114px;
+  box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 .nav-links:hover {
     text-decoration:none;
     background-color: #fff;
-    color: black;
+    color: #111;
 }
 
 .container {
@@ -67,7 +104,7 @@
 }
 
 .side-mark{
-  background-image: url(/static/t.png);
+  background-image: url(/static/icons/t.png);
   margin-top: 20px;
 }
 
@@ -99,6 +136,13 @@
   padding: 12px;
 }
 
+.text3 {
+  top: 7em;
+  width: 9em;
+  right: 4.5em;
+  padding: 12px;
+}
+
 .side-item:hover .text1{
   visibility: visible;
   opacity: 1;
@@ -109,8 +153,17 @@
   opacity: 1;
 }
 
-.side-sch{
-  background-image: url(/static/s.png);
+.side-item3:hover .text3{
+  visibility: visible;
+  opacity: 1;
+}
+
+ .side-sch{
+  background-image: url(/static/icons/s.png);
+}
+
+.side-fav{
+   background-image: url(/static/icons/h2.png);
 }
 
 .dvider {
@@ -122,7 +175,7 @@
   overflow: hidden;
   display: grid;
   grid-template-columns: 31% 31% 31%;
-  grid-template-rows: 26em;
+  grid-template-rows: 22.5em;
   grid-gap: 2em;
   padding: 3em 5em 8em 5em;
 }
@@ -134,6 +187,7 @@
 .thumb {
     /height: 15em;
     cursor: pointer;
+    position: relative;
 }
 
 .thumb:hover .post-title {
@@ -180,8 +234,8 @@
   color: #fff;
   font-size: 2vw;
   font-weight: bold;
-  margin: 3em 3em;
-  width: 17%;
+  margin: 3em 4em;
+  width: 55%;
   line-height: 1.5;
   text-shadow: 0 0 1px #fff, 0 1px 2px rgba(0,0,0,0.45);
 }
@@ -215,7 +269,7 @@
 }
 
 .publish-button {
-  /background-color: #ec6666;
+  /*background-color: #ec6666;
   background-color: #33987a;
   border-radius: 3px;
   border: 1px solid #33987a;
@@ -227,7 +281,18 @@
   text-decoration: none;
   text-shadow: 0px 1px 0px #2f6627;
   margin-top: 10px;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,.75);
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.75);*/
+
+  width: 4%;
+  z-index: 160;
+  position: absolute;
+  height: 3em;
+  margin-top: -50px;
+  cursor: pointer;
+  text-align: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(/static/icons/f1.png);
 }
 
 .disabled{
@@ -236,8 +301,10 @@
 }
 
 .publish-button:hover {
-	background-color: #de5353;
-  border: 1px solid #ec6666;
+	background-color: rgba(58, 51, 111, 0.97);
+  border: 1px solid #465e90;
+  border-radius: 44%;
+  width: 3em;
 }
 
 

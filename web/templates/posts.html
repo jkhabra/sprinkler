@@ -14,6 +14,10 @@
       <div class='side-text text2'>Schedule publish time</div>
       <div class='dvider'></div>
     </a>
+    <a class='side-item3' href='#'>
+      <div class='side-fav side-icon'></div>
+      <div class='side-text text3'>Favourite posts</div>
+    </a>
   </div>
   <ul class='post-list'>
     {% for post in posts %}
@@ -37,9 +41,10 @@
         {% else %}
         <img class='post-image' src='{{post.Image.local_url}}' alt='post_image'>
         {%endif%}
+        </div>
       </div>
-      </div>
-          <button type="button" class="publish-button" data-photo-id={{post.Image.local_url.split('/')[-1]}} >Publish</button>
+      <!-- <button type="button" class="publish-button" data-photo-id={{post.Image.local_url.split('/')[-1]}} >Publish</button> -->
+      <a class="publish-button" data-photo-id={{post.Image.local_url.split('/')[-1]}} ></a>
       {% endfor %}
     </li>
   </ul>
