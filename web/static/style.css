@@ -33,7 +33,7 @@
   outline: none;
 }
 
-.container a:hover, .dropdown:hover .dropbtn {
+a:hover, .dropdown:hover .dropbtn {
   background-color: #fff;
   color: #111;
 }
@@ -184,6 +184,16 @@
     list-style-type: none;
 }
 
+.big {
+  margin: 0px 10em 0px 15em;
+  z-index: 100;
+  position: fixed;
+}
+
+.big-image {
+  max-height: 40em;
+}
+
 .thumb {
     /height: 15em;
     cursor: pointer;
@@ -284,7 +294,7 @@
   box-shadow: 0 1px 3px 0 rgba(0,0,0,.75);*/
 
   width: 4%;
-  z-index: 160;
+  z-index: 80;
   position: absolute;
   height: 3em;
   margin-top: -50px;
@@ -345,4 +355,34 @@ a.fb-button {
   color: #fff;
   border-radius: 5px;
   margin-left: 14em;
+}
+
+/* styles for page selection*/
+.contain {
+  padding-top: 50px;
+  text-align: center;
+}
+
+.page-wrapper {
+  height: 35em;
+  display: grid;
+  grid-template-columns: 30% 28% 28%;
+  grid-template-rows: 15em;
+  padding: 5em;
+}
+
+.page-box {
+  border: 2px dashed gainsboro;
+  height: 15em;
+  cursor: pointer;
+}
+
+.box-icon {
+  background-image: url(/static/icons/p2.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 2em;
+  margin: 6em auto;
+  width: 11%;
+  opacity: 0.7;
 }

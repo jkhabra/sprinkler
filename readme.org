@@ -1,0 +1,39 @@
+* Sprinkler
+- Assistant to easily publish posts on Social media
+
+** Case Study
+
+*** Sam : Pet Store Owner
+- Sam goes to ~fbpostpro~ for posts that he want publish on his Facebook page
+- He login on ~fbpostpro~ with his Facebook account
+- Login connects Facebook page with app
+  - He selects categories which he is interested in
+    - In his case that would be puppies, kittens, and pets
+- He sees 10 posts from his selected categories
+- He selects posts which he want to publish
+- He schedules posts to be published later
+- He can publish maximum 5 posts in a day. However, he can schedule all 10 posts to be published on later days
+
+** Pages
+
+*** login page
+=login page= is home page where user gonna come first
+**** Actions
+- User can login to Facebook or quit the site
+
+*** page_selection
+=page_selection= displays user's Facebook pages
+**** Actions
+- user can select a Facebook page to continue with the app
+- user can add new Facebook page to app
+
+*** page_settings
+Settings for each facebook page user has attached to his account
+**** Actions
+- User can select categories which decide the type of posts shown to user
+- User can change the settings such auto-publish
+
+*** show_posts
+=show_posts= page displays the posts
+**** Actions
+ - User can select posts which he wanna publish

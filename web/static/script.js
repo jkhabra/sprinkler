@@ -1,4 +1,7 @@
 let allButtons = document.querySelectorAll('.publish-button');
+let state = window.state = {
+  isBigPictureVisible: false
+};
 
 for (let i = 0; i < allButtons.length; i++) {
   let button = allButtons[i];
@@ -40,3 +43,36 @@ for (let i = 0; i < allButtons.length; i++) {
     btn.setAttribute('disabled', 'disabled');
   });
 }
+
+let allImages = document.querySelectorAll('.post-image');
+
+for (let i = 0; i < allImages.length; i++) {
+  let image = allImages[i];
+
+  image.addEventListener('click', function(event) {
+    event.stopPropagation();
+    let img = event.target;
+    let img_src = new URL(img.src).pathname;
+    let parent = img.parentNode;
+    let big_image = document.querySelector('#big-image');
+
+    big_image.style.display='';
+    big_image.querySelector('img').src = img_src;
+
+    state.isBigPictureVisible = true;
+  });
+}
+
+document.body.addEventListener('click', function(event) {
+  if (!state.isBigPictureVisible) {
+    return;
+  }
+
+  let target = event.target;
+  let bigImg = document.querySelector('#big-image');
+
+  if (target !== bigImg.querySelector('img')){
+    bigImg.style.display='none';
+    state.isBigPictureVisible = false;
+  }
+});

@@ -32,7 +32,7 @@ def login():
                 + '&redirect_uri=' + redirect_uri \
                 + '&state=randomstrrsssger' \
                 + '&response_type=token' \
-                + '&scope=public_profile,publish_actions,user_friends,email'
+                + '&scope=public_profile,publish_actions,user_friends,email,manage_pages,publish_pages'
 
     return render_template('login.html', login_url=login_url)
 
@@ -40,10 +40,10 @@ def login():
 @app.route('/accept-fb-token')
 def accept_fb_token():
     if request.args.get('access_token'):
-        session['fb_token'] = request.args.get('access_token')
+        fb_token = request.args.get('access_token')
 
         try:
-            graph = GraphAPI(access_token = session['fb_token'])
+            graph = GraphAPI(access_token = fb_token)
             profile = graph.get_object('me')
             args = {'fields' : 'id,name,email'}
             profile = graph.get_object('me', **args)
@@ -59,11 +59,11 @@ def accept_fb_token():
         s_user = db_session.query(User).filter(User.email == email).one()
 
         if not s_user:
-            new_user = User(email=email, name=name, access_token=['fb_token'])
+            new_user = User(email=email, name=name, access_token=fb_token)
             db_session.add(new_user)
             db_session.commit()
         else:
-            s_user.access_token = session['fb_token']
+            s_user.access_token = fb_token
 
         db_session.commit()
         login_user(s_user)
@@ -85,6 +85,12 @@ def show_posts():
     db_session.close()
 
     return render_template('posts.html', posts=data)
+
+
+@app.route('/page_selection')
+def page_selection():
+    return render_template('page_selection.html')
+
 
 @app.route('/logout')
 def logout():
