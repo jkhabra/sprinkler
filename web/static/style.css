@@ -175,7 +175,7 @@ a:hover, .dropdown:hover .dropbtn {
   overflow: hidden;
   display: grid;
   grid-template-columns: 31% 31% 31%;
-  grid-template-rows: 22.5em;
+  grid-template-rows: 26em;
   grid-gap: 2em;
   padding: 3em 5em 8em 5em;
 }
@@ -185,14 +185,51 @@ a:hover, .dropdown:hover .dropbtn {
 }
 
 .big {
-  margin: 0px 10em 0px 15em;
   z-index: 100;
   position: fixed;
+  height: 95em;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: -5em;
+  padding-top: 5em;
+  background: rgba(0, 0, 0, 0.59);
 }
 
-.big-image {
-  max-height: 40em;
+.b-image, .big-video {
+  height: 35em;
+  padding: 2em;
 }
+
+.big-icon {
+  width: 1.8%;
+  height: 2em;
+  background-size: contain;
+  position: fixed;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.cancel{
+  background-image: url(/static/icons/c.png);
+  top: 6em;
+  right: 10em;
+}
+
+.right {
+  background-image: url(/static/icons/ra.png);
+  right: 10em;
+  top: 20em;
+  width: 3%;
+}
+
+.left {
+  background-image: url(/static/icons/la.png);
+  left: 10em;
+  top: 20em;
+  width: 3%;
+}
+
 
 .thumb {
     /height: 15em;
@@ -272,37 +309,46 @@ a:hover, .dropdown:hover .dropbtn {
   100% { transform: rotate(360deg); }
 }
 
+.mark-container{
+  position: absolute;
+  background: rgba(0, 0, 0, 0.6);
+  width: 14%;
+  height: 3em;
+  border-radius: 50%;
+  right: 3px;
+  z-index: 85;
+  cursor: pointer;
+}
+
+.mark-icon {
+  width: 76%;
+  background-image: url(/static/icons/un-mark.png);
+  position: absolute;
+  height: 2em;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin: 8px;
+}
+
 .post-image {
   width: 100%;
   height: 20em;
   box-shadow: 0 1px 5px 0 rgba(0,0,0,.75);
+  user-select: none
 }
 
 .publish-button {
-  /*background-color: #ec6666;
+  /background-color: #ec6666;
   background-color: #33987a;
   border-radius: 3px;
+  color: #fff;
+  font-size: 1vw;
+  padding: 12px 30px;
   border: 1px solid #33987a;
-  cursor: pointer;
-  color: #ffffff;
-  font-size: 1.1vw;
-  font-family: Times New Roman;
-  padding: 10px 30px;
   text-decoration: none;
   text-shadow: 0px 1px 0px #2f6627;
   margin-top: 10px;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,.75);*/
-
-  width: 4%;
-  z-index: 80;
-  position: absolute;
-  height: 3em;
-  margin-top: -50px;
-  cursor: pointer;
-  text-align: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-image: url(/static/icons/f1.png);
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.75);
 }
 
 .disabled{
@@ -311,10 +357,7 @@ a:hover, .dropdown:hover .dropbtn {
 }
 
 .publish-button:hover {
-	background-color: rgba(58, 51, 111, 0.97);
-  border: 1px solid #465e90;
-  border-radius: 44%;
-  width: 3em;
+  background-color: #408470;;
 }
 
 

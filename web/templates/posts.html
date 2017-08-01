@@ -2,6 +2,13 @@
 {% block container %}
 
 <div class='container'>
+  <div id='big-image' class='big' style='display:none;'>
+    <span class='cancel big-icon'></span>
+    <span class='right big-icon'></span>
+    <span class='left big-icon'></span>
+    <video class="big-video" autoplay='autoplay' loop muted src='' type="video/mp4" style='display:none;'></video>
+    <img class='b-image' src='' alt='post_image' style='display:none;'>
+  </div>
   <h1 class='header'>Today's Posts</h1>
   <div class='side-options'>
     <a class='side-item' href='#'>
@@ -19,9 +26,6 @@
       <div class='side-text text3'>Favourite posts</div>
     </a>
   </div>
-  <div id='big-image' class='big' style='display:none;'>
-    <img class='big-image' src=''>
-  </div>
   <ul class='post-list'>
     {% for post in posts %}
     <li class ="post"">
@@ -35,9 +39,11 @@
         <div class='spinner' style='display:none'></div>
         <p class='error' style='display:none'>Could not publish this post,please login again</p>
         <p class='success' style='display:none'>Your post successfully posted to Facebook</p>
+        <span class='mark-container'>
+          <span class='mark-post mark-icon'></span>
+          </span>
         {% if post.Image.local_url.endswith('.mp4') %}
-        <video class="post-image" autoplay='autoplay' loop muted>
-          <source src={{post.Image.local_url}} type="video/mp4">
+        <video class="post-image" autoplay='autoplay' loop muted src={{post.Image.local_url}} type="video/mp4">
           Your browser does not support the video tag.
         </video>
         {% else %}
@@ -45,8 +51,7 @@
         {%endif%}
         </div>
       </div>
-      <!-- <button type="button" class="publish-button" data-photo-id={{post.Image.local_url.split('/')[-1]}} >Publish</button> -->
-      <a class="publish-button" data-photo-id={{post.Image.local_url.split('/')[-1]}} ></a>
+      <button type="button" class="publish-button" data-photo-id={{post.Image.local_url.split('/')[-1]}} >Publish</button>
       {% endfor %}
     </li>
   </ul>

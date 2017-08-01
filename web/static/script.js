@@ -1,6 +1,7 @@
 let allButtons = document.querySelectorAll('.publish-button');
 let state = window.state = {
-  isBigPictureVisible: false
+  isBigPictureVisible: false,
+  allImages: document.querySelectorAll('.post-image')
 };
 
 for (let i = 0; i < allButtons.length; i++) {
@@ -44,6 +45,7 @@ for (let i = 0; i < allButtons.length; i++) {
   });
 }
 
+
 let allImages = document.querySelectorAll('.post-image');
 
 for (let i = 0; i < allImages.length; i++) {
@@ -53,15 +55,43 @@ for (let i = 0; i < allImages.length; i++) {
     event.stopPropagation();
     let img = event.target;
     let img_src = new URL(img.src).pathname;
+    window.img = img;
     let parent = img.parentNode;
     let big_image = document.querySelector('#big-image');
 
     big_image.style.display='';
-    big_image.querySelector('img').src = img_src;
 
+    if (img_src.endsWith('.mp4')) {
+      big_image.querySelector('.big-video').src = img_src;
+      big_image.querySelector('.big-video').style.display='';
+      big_image.querySelector('img').style.display='none';
+    }
+
+    else {
+      big_image.querySelector('img').src = img_src;
+      big_image.querySelector('.big-video').style.display='none';
+      big_image.querySelector('img').style.display='';
+    }
     state.isBigPictureVisible = true;
   });
 }
+
+let rightSide = document.querySelector('.right');
+rightSide.addEventListener('click', function(event) {
+  let right = event.target;
+  window.r = right;
+  let currentImage = right.parentNode.querySelector('.b-image').src;
+
+  for(let i = 0; i < allImages.length; i++) {
+    if (allImages[i].src === currentImage){
+      let bigImageIndex = i;
+      let y = allImages[bigImageIndex + 1].src;
+      let imagePath = new URL(y).pathname;
+      right.parentNode.querySelector('.b-image').src=imagePath;
+    }
+  }
+});
+
 
 document.body.addEventListener('click', function(event) {
   if (!state.isBigPictureVisible) {
@@ -75,4 +105,30 @@ document.body.addEventListener('click', function(event) {
     bigImg.style.display='none';
     state.isBigPictureVisible = false;
   }
+  if (target === bigImg.querySelector('.right')) {
+    bigImg.style.display='';
+    state.isBigPictureVisible = true;
+  }
 });
+
+
+// Mark/Unmark check boxes on images
+
+let allMarks = document.querySelectorAll('.mark-icon');
+
+for (let i = 0; i < allMarks.length; i++) {
+  let mark = allMarks[i];
+
+  mark.addEventListener('click', function(event) {
+    let markElement = event.target;
+
+    if (markElement.dataset.isMarked === "true") {
+      markElement.style.backgroundImage="url('/static/icons/un-mark.png')";
+      markElement.dataset.isMarked = false;
+    } else {
+      markElement.style.backgroundImage="url('/static/icons/mark.png')";
+      markElement.dataset.isMarked = true;
+    }
+
+  });
+}
