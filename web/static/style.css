@@ -8,8 +8,8 @@
 
 .nav-bar {
   background: #3D3D3D;
-  /* position: fixed; */
-  z-index: 9999;
+  position: fixed;
+  z-index: 95;
   height: 55px;
   width: 100%;
   list-style: none;
@@ -76,8 +76,7 @@ a:hover, .dropdown:hover .dropbtn {
 }
 
 .header {
-  text-align: center;
-  margin: 50px 0px 0px 75px;
+  margin: 70px 0px 10px 75px;
   font-family: Verdana;
   color: #3D3D3D;
 }
@@ -85,97 +84,37 @@ a:hover, .dropdown:hover .dropbtn {
 .side-options {
   position: fixed;
   background-color: rgba(255,255,2555,1);
-  top: 250px;
+  top: 5.5em;
   right: 0;
-  z-index: 12345678902;
-  box-shadow: 0px 1px 12px 0px rgba(0,0,0,0.12);
+  z-index: 90;
+  /box-shadow: 0px 1px 12px 0px rgba(0,0,0,0.12);
   -webkit-transition: 0.3s all;
   transition: 0.2s all;
-  width: 74px;
-  padding: 3px 0;
+  width: 20em;
+  height: 30em;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  grid-template-rows: 7em;
+  grid-gap: 12px;
+  border: 1px solid gainsboro;
 }
 
-.side-icon {
-  width: 30%;
-  height: 2em;
-  background-size: contain;
-  background-repeat: no-repeat;
-  margin: auto;
+.side-image {
+  height: 7em;
+  width: 6em;
 }
 
-.side-mark{
-  background-image: url(/static/icons/t.png);
-  margin-top: 20px;
-}
-
-.side-item1{
-  position: relative;
-}
-
-.side-text {
-  border-radius: 2%;
-  position: absolute;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.7);
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity .2s, visibility .2s;
-}
-
-.text1 {
-  top: 0.5em;
-  width: 8em;
-  right: 4.7em;
-  padding: 12px;
-}
-
-.text2 {
-  top: 4em;
-  width: 12em;
-  right: 4.5em;
-  padding: 12px;
-}
-
-.text3 {
-  top: 7em;
-  width: 9em;
-  right: 4.5em;
-  padding: 12px;
-}
-
-.side-item:hover .text1{
-  visibility: visible;
-  opacity: 1;
-}
-
-.side-item2:hover .text2{
-  visibility: visible;
-  opacity: 1;
-}
-
-.side-item3:hover .text3{
-  visibility: visible;
-  opacity: 1;
-}
-
- .side-sch{
-  background-image: url(/static/icons/s.png);
-}
-
-.side-fav{
-   background-image: url(/static/icons/h2.png);
-}
-
-.dvider {
-  margin: 5px 15px 15px;
-  border-bottom: 1px solid #d6c9c9;
+.small-image{
+  height: 7em;
+  width: 100%;
 }
 
 .post-list {
   overflow: hidden;
   display: grid;
-  grid-template-columns: 31% 31% 31%;
-  grid-template-rows: 26em;
+  grid-template-columns: 36% 36%;
+  grid-template-rows: 31em;
   grid-gap: 2em;
   padding: 3em 5em 8em 5em;
 }
@@ -191,7 +130,7 @@ a:hover, .dropdown:hover .dropbtn {
   display: flex;
   width: 100%;
   justify-content: center;
-  margin-top: -5em;
+  margin-top: -1em;
   padding-top: 5em;
   background: rgba(0, 0, 0, 0.59);
 }
@@ -208,6 +147,7 @@ a:hover, .dropdown:hover .dropbtn {
   position: fixed;
   background-repeat: no-repeat;
   cursor: pointer;
+  user-select: none;
 }
 
 .cancel{
@@ -232,9 +172,10 @@ a:hover, .dropdown:hover .dropbtn {
 
 
 .thumb {
-    /height: 15em;
-    cursor: pointer;
-    position: relative;
+  height: 25em;
+  width: 25em;
+  cursor: pointer;
+  position: relative;
 }
 
 .thumb:hover .post-title {
@@ -275,7 +216,7 @@ a:hover, .dropdown:hover .dropbtn {
 }
 
 .success, .error {
-  z-index: 100;
+  z-index: 90;
   font-family: courier;
   position: absolute;
   color: #fff;
@@ -294,8 +235,8 @@ a:hover, .dropdown:hover .dropbtn {
 
 .spinner{
   position: absolute;
-  z-index: 100;
-  margin: 8em 9.5em;
+  z-index: 90;
+  margin: 8em 11.5em;
   border: 5px solid #fff;
   border-bottom: 5px solid rgba(34, 34, 34, 0.03);
   border-radius: 50%;
@@ -311,9 +252,9 @@ a:hover, .dropdown:hover .dropbtn {
 
 .mark-container{
   position: absolute;
-  background: rgba(0, 0, 0, 0.6);
-  width: 14%;
-  height: 3em;
+  background: rgba(0, 0, 0, 0.50);
+  width: 9%;
+  height: 2.1em;
   border-radius: 50%;
   right: 3px;
   z-index: 85;
@@ -321,20 +262,21 @@ a:hover, .dropdown:hover .dropbtn {
 }
 
 .mark-icon {
-  width: 76%;
+  width: 75%;
   background-image: url(/static/icons/un-mark.png);
   position: absolute;
   height: 2em;
   background-repeat: no-repeat;
   background-size: contain;
-  margin: 8px;
+  margin: 4px;
 }
 
 .post-image {
   width: 100%;
-  height: 20em;
+  height: 100%;
   box-shadow: 0 1px 5px 0 rgba(0,0,0,.75);
-  user-select: none
+  user-select: none;
+  object-fit: contain;
 }
 
 .publish-button {
@@ -347,8 +289,9 @@ a:hover, .dropdown:hover .dropbtn {
   border: 1px solid #33987a;
   text-decoration: none;
   text-shadow: 0px 1px 0px #2f6627;
-  margin-top: 10px;
+  margin-top: 55px;
   box-shadow: 0 1px 1px 0 rgba(0,0,0,.75);
+  cursor: pointer;
 }
 
 .disabled{
@@ -373,6 +316,7 @@ a:hover, .dropdown:hover .dropbtn {
 
 .login-menu {
   height: 40em;
+  margin-top: 10em;
 }
 
 .login-menu2 {
