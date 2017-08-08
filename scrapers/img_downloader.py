@@ -8,7 +8,7 @@ from db import get_session
 
 def url_from_db():
     db_session = get_session()
-    rows = db_session.query(Image).filter(Image.local_url is not None)
+    rows = db_session.query(Image).filter(Image.url and Image.local_url == None)
     urls = ''
 
     for row in rows:
