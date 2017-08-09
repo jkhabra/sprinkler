@@ -2,6 +2,7 @@
 {% block container %}
 
 <div class='container'>
+
   <div id='big-image' class='big' style='display:none;'>
     <span class='cancel big-icon'></span>
     <span class='right big-icon'></span>
@@ -12,7 +13,7 @@
   <h1 class='header'>Today's Posts</h1>
   <div class='side-options'>
     <!-- <div class='marked-header'>Select images for set publish time</div> -->
-      <div class='marked-images'></div>
+    <div class='marked-images'></div>
   </div>
   <ul class='post-list'>
     {% for post in posts %}
@@ -24,19 +25,19 @@
           </h3>
         </div>
         <div class='color'>
-        <div class='spinner' style='display:none'></div>
-        <p class='error' style='display:none'>Could not publish this post,please login again</p>
-        <p class='success' style='display:none'>Your post successfully posted to Facebook</p>
-        <span class='mark-container'>
-          <span class='mark-post mark-icon'></span>
+          <div class='spinner' style='display:none'></div>
+          <p class='error' style='display:none'>Could not publish this post,please login again</p>
+          <p class='success' style='display:none'>Your post successfully posted to Facebook</p>
+          <span class='mark-container'>
+            <span class='mark-post mark-icon' data-mark-id={{post.Image.local_url.split('/')[-1].split('.')[0]}} ></span>
           </span>
-        {% if post.Image.local_url.endswith('.mp4') %}
-        <video class="post-image" autoplay='autoplay' loop muted src={{post.Image.local_url}} type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        {% else %}
-        <img class='post-image' src='{{post.Image.local_url}}' alt='post_image'>
-        {%endif%}
+          {% if post.Image.local_url.endswith('.mp4') %}
+          <video class="post-image" autoplay='autoplay' loop muted src={{post.Image.local_url}} type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          {% else %}
+          <img class='post-image' src='{{post.Image.local_url}}' alt='post_image'>
+          {%endif%}
         </div>
       </div>
       <button type="button" class="publish-button" data-photo-id={{post.Image.local_url.split('/')[-1]}} >Publish</button>
@@ -44,7 +45,8 @@
     </li>
   </ul>
 </div>
-
+<link rel="stylesheet" type=text/css href='/static/flatpickr.min.css'>
+<script src="/static/flatpickr.min.js"></script>
 <script src='/static/script.js'></script>
 
 {% endblock %}
