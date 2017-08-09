@@ -2,8 +2,7 @@ let allButtons = document.querySelectorAll('.publish-button');
 let state = window.state = {
   isBigPictureVisible: false,
   allImages: document.querySelectorAll('.post-image'),
-  selectedImages: [],
-  selectedTitle: []
+  selectedImages: []
 };
 
 for (let i = 0; i < allButtons.length; i++) {
@@ -173,7 +172,7 @@ for (let i = 0; i < allMarks.length; i++) {
       markElement.dataset.isMarked = false;
 
       // remove image from selected images state
-      let index = state.selectedImages.indexOf(markElement.parentNode.parentNode.querySelector('.post-image').src);
+      let index = state.selectedImages.map(function(o) {return o.src;}).indexOf(markElement.parentNode.parentNode.querySelector('.post-image').src);
       let remove = state.selectedImages.splice(index, 1);
       document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
     }
@@ -183,43 +182,41 @@ for (let i = 0; i < allMarks.length; i++) {
       // END Change selected-image checkbox
 
       // Add image to selected images state
-      let selectedImage = markElement.parentNode.parentNode.querySelector('.post-image').src;
+      let imageSrc = markElement.parentNode.parentNode.querySelector('.post-image').src;
       let title = markElement.parentNode.parentNode.parentNode.querySelector('.post-title').innerText;
-      state.selectedTitle.push(title);
-      state.selectedImages.push(selectedImage);
+      state.selectedImages.push({title:title, src:imageSrc});
 
       // Update sidebar with new selected images
-      document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages, state.selectedTitle);
+      document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
     }
   });
 }
 
 // function takes url and returns inner html
-function makeSelectedImagesHtml (urls, title) {
+function makeSelectedImagesHtml (urls) {
   let html = '';
+  for (let key in state.selectedImages) {
+    let value = state.selectedImages[key];
 
-  for (let i = 0; i < urls.length;  i++) {
-    let imageUrl = urls[i];
-
-    if (imageUrl.endsWith('.mp4')){
+    if (value.src.endsWith('.mp4')){
       html += `<div class="post-time">
                  <span class='cancel-schedule'></span>
-                 <p class="side-title">${title}</p>
+                 <p class="side-title">${value.title}</p>
                  <p class="set-time set">Set time</p>
                  <input type="time" name="time" class="set-time" />
                  <div class="side-image">
-                 <video muted class="small-image" src='${imageUrl}'"></video>
+                 <video mute class="small-image" src='${value.src}'></video>
                  </div>
                  <a class="done">schedule</a>
                </div>`;
     } else {
       html += `<div class="post-time">
                  <span class='cancel-schedule'></span>
-                 <p class="side-title">${title}</p>
+                 <p class="side-title">${value.title}</p>
                  <p class="set-time set">Set time</p>
                  <input type="time" name="time" class="set-time" />
                  <div class="side-image">
-                 <img class="small-image" src='${imageUrl}'>
+                 <img class="small-image" src='${value.src}'>
                  </div>
                  <a class="done">schedule</a>
                </div>`;
