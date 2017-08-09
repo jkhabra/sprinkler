@@ -202,7 +202,16 @@ function makeSelectedImagesHtml (urls, title) {
     let imageUrl = urls[i];
 
     if (imageUrl.endsWith('.mp4')){
-      html += `<div class="side-image"><video muted class="small-image" src='${imageUrl}'"></video></div>`;
+      html += `<div class="post-time">
+                 <span class='cancel-schedule'></span>
+                 <p class="side-title">${title}</p>
+                 <p class="set-time set">Set time</p>
+                 <input type="time" name="time" class="set-time" />
+                 <div class="side-image">
+                 <video muted class="small-image" src='${imageUrl}'"></video>
+                 </div>
+                 <a class="done">schedule</a>
+               </div>`;
     } else {
       html += `<div class="post-time">
                  <span class='cancel-schedule'></span>
@@ -214,7 +223,6 @@ function makeSelectedImagesHtml (urls, title) {
                  </div>
                  <a class="done">schedule</a>
                </div>`;
-
     }
   }
 

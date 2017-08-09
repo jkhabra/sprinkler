@@ -109,7 +109,8 @@
   display: grid;
   padding: 10px;
   grid-gap: 10px;
-  height: 22em;
+  grid-template-rows: 10em 10em 10em;
+  height: 90%;
   grid-template-columns: 1fr;
 }
 
@@ -161,8 +162,9 @@
 
 .done {
   position: absolute;
-  top: 7em;
-  right: 1.8em;
+  top: 9em;
+  right: 3em;
+  font-size: 1vw;
   border: 1px solid #33987a;
   color: #fff;
   border-radius: 5px;
