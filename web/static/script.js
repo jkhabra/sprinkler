@@ -165,6 +165,7 @@ for (let i = 0; i < allMarks.length; i++) {
 
   mark.addEventListener('click', function(event) {
     let markElement = event.target;
+    let markId = markElement.dataset.markId;
 
     // START Change selected-image checkbox
     if (markElement.dataset.isMarked === "true") {
@@ -184,11 +185,42 @@ for (let i = 0; i < allMarks.length; i++) {
       // Add image to selected images state
       let imageSrc = markElement.parentNode.parentNode.querySelector('.post-image').src;
       let title = markElement.parentNode.parentNode.parentNode.querySelector('.post-title').innerText;
-      state.selectedImages.push({title:title, src:imageSrc});
+      state.selectedImages.push({title:title, src:imageSrc, id:markId});
 
       // Update sidebar with new selected images
       document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
     }
+
+    // add time picker
+    const time = flatpickr('#set-time',
+                           {enableTime: true,
+                            noCalendar: true,
+                            enableSeconds: false,
+                            time_24hr: false,
+                            dateFormat: "H:i",
+                            defaultHour: 12,
+                            defaultMinute: 0
+                           });
+
+    // remove marked image form side-bar
+
+    let allCancel = document.querySelectorAll('.cancel-schedule');
+
+    for (let i = 0; i < allCancel.length; i++) {
+      let cancel = allCancel[i];
+
+      cancel.addEventListener('click', function(event) {
+        let cancelElement = event.target;
+        window.c = cancelElement;
+
+        // remove image from selected images state
+        let index = state.selectedImages.map(function(o) {return o.src;}).indexOf(cancelElement.parentNode.querySelector('.small-image').src);
+        let remove = state.selectedImages.splice(index, 1);
+        window.r = remove;
+        document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+      });
+    }
+
   });
 }
 
@@ -202,8 +234,8 @@ function makeSelectedImagesHtml (urls) {
       html += `<div class="post-time">
                  <span class='cancel-schedule'></span>
                  <p class="side-title">${value.title}</p>
-                 <p class="set-time set">Set time</p>
-                 <input type="time" name="time" class="set-time" />
+                 <p class="set">Set time</p>
+                 <input type="time" name="time" placeholder="Set time" id="set-time" />
                  <div class="side-image">
                  <video mute class="small-image" src='${value.src}'></video>
                  </div>
@@ -213,8 +245,8 @@ function makeSelectedImagesHtml (urls) {
       html += `<div class="post-time">
                  <span class='cancel-schedule'></span>
                  <p class="side-title">${value.title}</p>
-                 <p class="set-time set">Set time</p>
-                 <input type="time" name="time" class="set-time" />
+                 <p class="set">Set time</p>
+                 <input type="time" name="time" placeholder="Set time" id="set-time" />
                  <div class="side-image">
                  <img class="small-image" src='${value.src}'>
                  </div>
@@ -222,6 +254,5 @@ function makeSelectedImagesHtml (urls) {
                </div>`;
     }
   }
-
   return html;
 }
