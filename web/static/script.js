@@ -1,4 +1,3 @@
-let allButtons = document.querySelectorAll('.publish-button');
 let state = window.state = {
   isBigPictureVisible: false,
   allImages: document.querySelectorAll('.post-image'),
@@ -64,112 +63,105 @@ let hideBigImage = (target) => {
   state.isBigPictureVisible = false;
 };
 
-
-// Publish post on Facebook
-function publish() {
-  for (let i = 0; i < allButtons.length; i++) {
-    let button = allButtons[i];
-
-    button.addEventListener('click', function(event) {
-      let btn = event.target;
-      let url = '/publish-photo?id=' + btn.dataset.photoId;
-      let parent = btn.parentNode;
-      parent.querySelector('.spinner').style.display='';
-      parent.querySelector('.color').style.background='black';
-      parent.querySelector('.post-image').style.opacity='0.5';
-
-      fetch(url)
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(res) {
-          console.warn(res);
-
-          if (res.status === 'ok' || res.status === 'success') {
-            console.log('Your post successfully posted to Facebook');
-            parent.querySelector('.spinner').style.display='none';
-            parent.querySelector('.post-image').classList.add('thumb2');
-            parent.querySelector('.success').style.display='';
-          }
-          if (res.status === 'error'){
-            parent.querySelector('.spinner').style.display='none';
-            parent.querySelector('.post-image').classList.add('thumb3');
-            parent.querySelector('.error').style.display='';
-          }
-          else {
-            throw new Error('Failed to publish image');
-          }
-        })
-        .catch(function(error) {
-          console.log('There has been a problem with your fetch operation: ' + error.message);
-        });
-      btn.classList.add('disabled');
-      btn.setAttribute('disabled', 'disabled');
-    });
-  }
-}
-
 // Display next image on click right button
 function nextBigImage(){
   let rightSide = document.querySelector('.right');
+
   rightSide.addEventListener('click', function(event) {
     let right = event.target;
     let currentImage = right.parentNode.querySelector('.b-image').src;
-    let allImages = document.querySelectorAll('.post-image');
-
-    for(let i = 0; i < allImages.length; i++) {
-      if (allImages[i].src === currentImage){
-        let bigImageIndex = i;
-        let next = allImages[bigImageIndex + 1].src;
-        let imagePath = new URL(next).pathname;
-
-        if (imagePath.endsWith('.mp4')) {
-          let mp4 = imagePath;
-          window.m = mp4;
-          right.parentNode.querySelector('.big-video').style.display='';
-          right.parentNode.querySelector('.b-image').style.display='none';
-          right.parentNode.querySelector('.big-video').src=mp4;
-        }
-        else {
-          right.parentNode.querySelector('.b-image').style.display='';
-          right.parentNode.querySelector('.big-video').style.display='none';
-        }
-        right.parentNode.querySelector('.b-image').src=imagePath;
-      }
-    }
+    allImages(currentImage);
   });
 }
 
 // Display previous image on click left button
 function previousBigImage() {
   let leftSide = document.querySelector('.left');
+
   leftSide.addEventListener('click', function(event) {
     let left = event.target;
     let currentImage = left.parentNode.querySelector('.b-image').src;
-    let allImages = document.querySelectorAll('.post-image');
-
-    for(let i = 0; i < allImages.length; i++) {
-      if (allImages[i].src === currentImage){
-        let bigImageIndex = i;
-        let previors = allImages[bigImageIndex - 1].src;
-        let imagePath = new URL(previors).pathname;
-
-        if (imagePath.endsWith('.mp4')) {
-          let mp4 = imagePath;
-          left.parentNode.querySelector('.big-video').style.display='';
-          left.parentNode.querySelector('.b-image').style.display='none';
-          left.parentNode.querySelector('.big-video').src=mp4;
-        }
-        else {
-          left.parentNode.querySelector('.b-image').style.display='';
-          left.parentNode.querySelector('.big-video').style.display='none';
-        }
-        left.parentNode.querySelector('.b-image').src=imagePath;
-      }
-    }
+    allImages(currentImage, 'previous');
   });
 }
 
+let allImages = (image, nextImage) =>{
+  let allImages = document.querySelectorAll('.post-image');
+
+  for(let i = 0; i < allImages.length; i++) {
+    if (allImages[i].src === image){
+      let bigImageIndex = i;
+      if ( typeof(nextImage) ==='undefined') nextImage = allImages[bigImageIndex + 1].src;
+      if ( nextImage === 'previous') nextImage = allImages[bigImageIndex - 1].src;
+
+      if (nextImage.endsWith('.mp4')) {
+        let mp4 = nextImage;
+        window.m = mp4;
+        document.querySelector('.big-video').style.display='';
+        document.querySelector('.b-image').style.display='none';
+        document.querySelector('.big-video').src=mp4;
+      }
+      else {
+        document.querySelector('.b-image').style.display='';
+        document.querySelector('.big-video').style.display='none';
+      }
+      document.querySelector('.b-image').src=nextImage;
+    }
+  }
+};
+
+// Add event listener on publish buttons
+function setUpForPublish() {
+  let allButtons = document.querySelectorAll('.publish-button');
+
+  for (let i = 0; i < allButtons.length; i++) {
+    let button = allButtons[i];
+
+    button.addEventListener('click', function(event) {
+      let btn = event.target;
+      let url = '/publish-photo?id=' + btn.dataset.photoId;
+
+      publish(btn, url);
+    });
+  }
+};
+
+
+// Publish post on Facebook
+let publish = (button, url) => {
+  let parent = button.parentNode;
+  parent.querySelector('.spinner').style.display='';
+  parent.querySelector('.color').style.background='black';
+  parent.querySelector('.post-image').style.opacity='0.5';
+
+  fetch(url)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(res) {
+      console.warn(res);
+
+      if (res.status === 'ok' || res.status === 'success') {
+        console.log('Your post successfully posted to Facebook');
+        parent.querySelector('.spinner').style.display='none';
+        parent.querySelector('.post-image').classList.add('thumb2');
+        parent.querySelector('.success').style.display='';
+      }
+      if (res.status === 'error'){
+        parent.querySelector('.spinner').style.display='none';
+        parent.querySelector('.post-image').classList.add('thumb3');
+        parent.querySelector('.error').style.display='';
+      }
+      else {
+        throw new Error('Failed to publish image');
+      }
+    })
+    .catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+    });
+  button.classList.add('disabled');
+  button.setAttribute('disabled', 'disabled');
+};
 
 // Mark/Unmark check boxes on images
 function markImage() {
@@ -297,8 +289,7 @@ function timePicker(){
     defaultMinute: 0
   });
 }
-
-publish();
+setUpForPublish();
 setUpBigimageViewer();
 nextBigImage();
 previousBigImage();
