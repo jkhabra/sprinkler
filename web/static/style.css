@@ -125,7 +125,7 @@
   grid-gap: 12px;
 }
 
-.cancel-schedule{
+.remove-schedule{
   width: 100%;
   height: 14px;
   /* border: 1px solid; */
@@ -273,7 +273,7 @@
 .thumb {
   height: 25em;
   width: 25em;
-  cursor: pointer;
+  cursor: zoom-in;
   position: relative;
 }
 

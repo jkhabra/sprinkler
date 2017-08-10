@@ -5,6 +5,66 @@ let state = window.state = {
   selectedImages: []
 };
 
+// Make image bigger on click
+function setUpBigimageViewer() {
+  let allImages = document.querySelectorAll('.post-image');
+
+  // add click event on all images to show them in big image viewer
+  for (let i = 0; i < allImages.length; i++) {
+    let image = allImages[i];
+
+    image.addEventListener('click', function (event) {
+      event.stopPropagation();
+      let img = event.target;
+      let imageSource = new URL(img.src).pathname;
+
+      displayBigImage(imageSource);
+    });
+  }
+
+  document.body.addEventListener('click', (event) => {
+    let target = event.target;
+    hideBigImage(target);
+  });
+}
+
+let displayBigImage = (imageSource) => {
+    let bigImageEl = document.querySelector('#big-image');
+
+    bigImageEl.style.display = '';
+
+    if (imageSource.endsWith('.mp4')) {
+        bigImageEl.querySelector('.big-video').src = imageSource;
+        bigImageEl.querySelector('.big-video').style.display = '';
+        bigImageEl.querySelector('img').style.display = 'none';
+    } else {
+        bigImageEl.querySelector('img').src = imageSource;
+        bigImageEl.querySelector('.big-video').style.display = 'none';
+        bigImageEl.querySelector('img').style.display = '';
+    }
+    state.isBigPictureVisible = true;
+};
+
+// Make big image's display none when click outside of target image
+let hideBigImage = (target) => {
+  if (!state.isBigPictureVisible) {
+    return;
+  }
+
+  let bigImg = document.querySelector('#big-image');
+
+  if (target === bigImg.querySelector('img') ||
+      target === bigImg.querySelector('.right') ||
+      target === bigImg.querySelector('.left') ||
+      target === bigImg.querySelector('.big-video')) {
+    return;
+  }
+
+  bigImg.style.display = 'none';
+  state.isBigPictureVisible = false;
+};
+
+
 // Publish post on Facebook
 function publish() {
   for (let i = 0; i < allButtons.length; i++) {
@@ -45,39 +105,6 @@ function publish() {
         });
       btn.classList.add('disabled');
       btn.setAttribute('disabled', 'disabled');
-    });
-  }
-}
-
-// Make image bigger on click
-function setUpBigimage() {
-  let allImages = document.querySelectorAll('.post-image');
-
-  for (let i = 0; i < allImages.length; i++) {
-    let image = allImages[i];
-
-    image.addEventListener('click', function(event) {
-      event.stopPropagation();
-      let img = event.target;
-      let img_src = new URL(img.src).pathname;
-      window.img = img;
-      let parent = img.parentNode;
-      let big_image = document.querySelector('#big-image');
-
-      big_image.style.display='';
-
-      if (img_src.endsWith('.mp4')) {
-        big_image.querySelector('.big-video').src = img_src;
-        big_image.querySelector('.big-video').style.display='';
-        big_image.querySelector('img').style.display='none';
-      }
-
-      else {
-        big_image.querySelector('img').src = img_src;
-        big_image.querySelector('.big-video').style.display='none';
-        big_image.querySelector('img').style.display='';
-      }
-      state.isBigPictureVisible = true;
     });
   }
 }
@@ -139,27 +166,6 @@ function previousBigImage() {
         }
         left.parentNode.querySelector('.b-image').src=imagePath;
       }
-    }
-  });
-}
-
-// Make big image's display none when click outside of target image
-function hideBigImage() {
-  document.body.addEventListener('click', function(event) {
-    if (!state.isBigPictureVisible) {
-      return;
-    }
-
-    let target = event.target;
-    let bigImg = document.querySelector('#big-image');
-
-    if (target !== bigImg.querySelector('img')){
-      bigImg.style.display='none';
-      state.isBigPictureVisible = false;
-    }
-    if (target === bigImg.querySelector('.right') || target === bigImg.querySelector('.left') || target === bigImg.querySelector('.big-video')) {
-      bigImg.style.display='';
-      state.isBigPictureVisible = true;
     }
   });
 }
@@ -253,7 +259,7 @@ function makeSelectedImagesHtml (urls) {
 
     if (value.src.endsWith('.mp4')){
       html += `<div class="post-time">
-                 <span class='cancel-schedule'></span>
+                 <span class='remove-schedule'></span>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
                  <input type="time" name="time" placeholder="Set time" id="set-time" />
@@ -264,7 +270,7 @@ function makeSelectedImagesHtml (urls) {
                </div>`;
     } else {
       html += `<div class="post-time">
-                 <span class='cancel-schedule'></span>
+                 <span class='remove-schedule'></span>
                  <div class='spinner' style='display:none;'></div>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
@@ -293,7 +299,7 @@ function timePicker(){
 }
 
 publish();
-setUpBigimage();
+setUpBigimageViewer();
 nextBigImage();
 previousBigImage();
 hideBigImage();
