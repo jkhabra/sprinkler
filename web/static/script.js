@@ -119,17 +119,18 @@ function setUpForPublish() {
 
     button.addEventListener('click', function(event) {
       let btn = event.target;
-      let url = '/publish-photo?id=' + btn.dataset.photoId;
 
-      publish(btn, url);
+      publish(btn);
     });
   }
 };
 
 
 // Publish post on Facebook
-let publish = (button, url) => {
+let publish = (button) => {
+  let url = '/publish-photo?id=' + btn.dataset.photoId;
   let parent = button.parentNode;
+
   parent.querySelector('.spinner').style.display='';
   parent.querySelector('.color').style.background='black';
   parent.querySelector('.post-image').style.opacity='0.5';
@@ -164,7 +165,7 @@ let publish = (button, url) => {
 };
 
 // Mark/Unmark check boxes on images
-function markImage() {
+function setUpMark() {
   let allMarks = document.querySelectorAll('.mark-icon');
 
   for (let i = 0; i < allMarks.length; i++) {
@@ -172,64 +173,77 @@ function markImage() {
 
     mark.addEventListener('click', function(event) {
       let markElement = event.target;
-      let markId = markElement.dataset.markId;
 
-      // START Change selected-image checkbox
-      if (markElement.dataset.isMarked === "true") {
-        markElement.style.backgroundImage="url('/static/icons/un-mark.png')";
-        markElement.dataset.isMarked = false;
+      markImage(markElement);
 
-        // remove image from selected images state
-        let index = state.selectedImages.map(function(o) {return o.src;}).indexOf(markElement.parentNode.parentNode.querySelector('.post-image').src);
-        let remove = state.selectedImages.splice(index, 1);
-        document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-      }
-      else {
-        markElement.style.backgroundImage="url('/static/icons/mark.png')";
-        markElement.dataset.isMarked = true;
-        // END Change selected-image checkbox
-
-        // Add image to selected images state
-        let imageSrc = markElement.parentNode.parentNode.querySelector('.post-image').src;
-        let title = markElement.parentNode.parentNode.parentNode.querySelector('.post-title').innerText;
-        state.selectedImages.push({title:title, src:imageSrc, id:markId});
-
-        // Update sidebar with new selected images
-        document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-      }
-
-      timePicker();
-      removeSchedule();
-      setSchedule();
     });
   }
 }
 
+let markImage = (imageE) => {
+  let markId = imageE.dataset.markId;
+
+  // START Change selected-image checkbox
+  if (imageE.dataset.isMarked === "true") {
+    imageE.style.backgroundImage="url('/static/icons/un-mark.png')";
+    imageE.dataset.isMarked = false;
+
+    // remove image from selected images state
+    let index = state
+        .selectedImages
+        .map(o => o.src)
+        .indexOf(imageE.parentNode.parentNode.querySelector('.post-image').src);
+    let remove = state.selectedImages.splice(index, 1);
+    document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+      }
+  else {
+    imageE.style.backgroundImage="url('/static/icons/mark.png')";
+    imageE.dataset.isMarked = true;
+    // END Change selected-image checkbox
+
+    // Add image to selected images state
+    let imageSrc = imageE.parentNode.parentNode.querySelector('.post-image').src;
+    let title = imageE.parentNode.parentNode.parentNode.querySelector('.post-title').innerText;
+    state.selectedImages.push({title:title, src:imageSrc, id:markId});
+
+    // Update sidebar with new selected images
+    document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+  }
+
+  timePicker();
+  setUpRemoveSchedule();
+  setUpSchedule();
+};
+
 // remove marked image form side-bar
-function removeSchedule(){
-  let allCancel = document.querySelectorAll('.cancel-schedule');
+function setUpRemoveSchedule(){
+  let allCancel = document.querySelectorAll('.remove-schedule');
 
   for (let i = 0; i < allCancel.length; i++) {
     let cancel = allCancel[i];
 
     cancel.addEventListener('click', function(event) {
-      let cancelElement = event.target;
-
-      // remove image from selected images state
-      let index = state
-          .selectedImages
-          .map(o => o.src)
-          .indexOf(cancelElement.parentNode.querySelector('.small-image').src);
-
-      state.selectedImages.splice(index, 1);
-      document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-      timePicker();
+      let removeE = event.target;
+      window.r = removeE;
+      removeScheduler(removeE);
     });
   }
 }
 
+// remove image from selected images state
+let removeScheduler = (removeE) => {
+      let index = state
+          .selectedImages
+          .map(o => o.src)
+          .indexOf(removeE.parentNode.querySelector('.small-image').src);
+
+      state.selectedImages.splice(index, 1);
+      document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+      timePicker();
+};
+
 // Add cancel button when schedule is clicked
-function setSchedule() {
+function setUpSchedule() {
   let allSchedule = document.querySelectorAll('.done');
 
   for (let i = 0; i < allSchedule.length; i++){
@@ -237,11 +251,16 @@ function setSchedule() {
 
     done.addEventListener('click', function(event){
       let doneElement = event.target;
-      let parent = doneElement.parentNode;
-      doneElement.innerHTML = 'Cancel';
+
+      setScheduler(doneElement);
     });
   }
 }
+
+let setScheduler = (buttonE) => {
+  let parent = buttonE.parentNode;
+  buttonE.innerHTML = 'Cancel';
+};
 
 // function takes url and returns inner html
 function makeSelectedImagesHtml (urls) {
@@ -289,9 +308,10 @@ function timePicker(){
     defaultMinute: 0
   });
 }
+
 setUpForPublish();
 setUpBigimageViewer();
 nextBigImage();
 previousBigImage();
 hideBigImage();
-markImage();
+setUpMark();
