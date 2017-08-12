@@ -164,7 +164,7 @@ let publish = (button) => {
   button.setAttribute('disabled', 'disabled');
 };
 
-// Mark/Unmark check boxes on images
+// Add event listener on mark icon
 function setUpMark() {
   let allMarks = document.querySelectorAll('.mark-icon');
 
@@ -180,34 +180,17 @@ function setUpMark() {
   }
 }
 
+// Mark/Unmark check boxes on images
 let markImage = (imageE) => {
-  let markId = imageE.dataset.markId;
-
-  // START Change selected-image checkbox
   if (imageE.dataset.isMarked === "true") {
     imageE.style.backgroundImage="url('/static/icons/un-mark.png')";
     imageE.dataset.isMarked = false;
-
-    // remove image from selected images state
-    let index = state
-        .selectedImages
-        .map(o => o.src)
-        .indexOf(imageE.parentNode.parentNode.querySelector('.post-image').src);
-    let remove = state.selectedImages.splice(index, 1);
-    document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-      }
+    removeImage(imageE);
+  }
   else {
     imageE.style.backgroundImage="url('/static/icons/mark.png')";
     imageE.dataset.isMarked = true;
-    // END Change selected-image checkbox
-
-    // Add image to selected images state
-    let imageSrc = imageE.parentNode.parentNode.querySelector('.post-image').src;
-    let title = imageE.parentNode.parentNode.parentNode.querySelector('.post-title').innerText;
-    state.selectedImages.push({title:title, src:imageSrc, id:markId});
-
-    // Update sidebar with new selected images
-    document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+    addImage(imageE);
   }
 
   timePicker();
@@ -215,31 +198,57 @@ let markImage = (imageE) => {
   setUpSchedule();
 };
 
-// remove marked image form side-bar
-function setUpRemoveSchedule(){
-  let allCancel = document.querySelectorAll('.remove-schedule');
+// remove image from selected images state
+let removeImage = (imageE) => {
+  let index = state
+      .selectedImages
+      .map(o => o.src)
+      .indexOf(imageE.parentNode.parentNode.querySelector('.post-image').src);
+  let remove = state.selectedImages.splice(index, 1);
+  document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
 
-  for (let i = 0; i < allCancel.length; i++) {
-    let cancel = allCancel[i];
+};
+
+// Add image to selected images state
+let addImage = (imageE) => {
+  let markId = imageE.dataset.markId;
+  let imageSrc = imageE.parentNode.parentNode.querySelector('.post-image').src;
+  let title = imageE.parentNode.parentNode.parentNode.querySelector('.post-title').innerText;
+  state.selectedImages.push({title:title, src:imageSrc, id:markId});
+
+  document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+};
+
+// Add event listener on cross icon
+function setUpRemoveSchedule(){
+  let removeAll = document.querySelectorAll('.remove-schedule');
+
+  for (let i = 0; i < removeAll.length; i++) {
+    let cancel = removeAll[i];
 
     cancel.addEventListener('click', function(event) {
       let removeE = event.target;
-      window.r = removeE;
       removeScheduler(removeE);
     });
   }
 }
 
-// remove image from selected images state
+// remove marked image form side-bar when click on cross
 let removeScheduler = (removeE) => {
-      let index = state
-          .selectedImages
-          .map(o => o.src)
-          .indexOf(removeE.parentNode.querySelector('.small-image').src);
+  let index = state
+      .selectedImages
+      .map(o => o.src)
+      .indexOf(removeE.parentNode.querySelector('.small-image').src);
+  let removedImage = state.selectedImages.splice(index, 1);
+  let allImages = document.querySelectorAll('.mark-icon');
 
-      state.selectedImages.splice(index, 1);
-      document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-      timePicker();
+  for (let i = 0; i < allImages.length; i++) {
+    let unMark = allImages[i];
+    if(removedImage[0].id === unMark.dataset.markId)
+      unMark.style.backgroundImage="url('/static/icons/un-mark.png')";
+  }
+  document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+  timePicker();
 };
 
 // Add cancel button when schedule is clicked
