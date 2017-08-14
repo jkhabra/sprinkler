@@ -165,7 +165,7 @@ let publish = (button) => {
 };
 
 // Add event listener on mark icon
-function setUpMark() {
+function setUpSelectImage() {
   let allMarks = document.querySelectorAll('.mark-icon');
 
   for (let i = 0; i < allMarks.length; i++) {
@@ -175,7 +175,6 @@ function setUpMark() {
       let markElement = event.target;
 
       markImage(markElement);
-
     });
   }
 }
@@ -183,93 +182,112 @@ function setUpMark() {
 // Mark/Unmark check boxes on images
 let markImage = (imageE) => {
   if (imageE.dataset.isMarked === "true") {
-    imageE.style.backgroundImage="url('/static/icons/un-mark.png')";
-    imageE.dataset.isMarked = false;
-    removeImage(imageE);
+    unselectImage(imageE);
   }
   else {
-    imageE.style.backgroundImage="url('/static/icons/mark.png')";
-    imageE.dataset.isMarked = true;
-    addImage(imageE);
+    selectImage(imageE);
   }
+};
 
+
+let setupSelectedImageSidebar = () => {
   timePicker();
-  setUpRemoveSchedule();
-  setUpSchedule();
+  setUpRemoveSidebarItem();
+  setupScheduleButton();
 };
 
 // remove image from selected images state
-let removeImage = (imageE) => {
+let unselectImage = (imageE) => {
+  // Change mark icon on image thumb in main view
+  imageE.style.backgroundImage="url('/static/icons/un-mark.png')";
+  imageE.dataset.isMarked = false;
+
   let index = state
       .selectedImages
       .map(o => o.src)
       .indexOf(imageE.parentNode.parentNode.querySelector('.post-image').src);
-  let remove = state.selectedImages.splice(index, 1);
+
+  state.selectedImages.splice(index, 1);
   document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
 
+  setupSelectedImageSidebar();
 };
 
 // Add image to selected images state
-let addImage = (imageE) => {
+let selectImage = (imageE) => {
+  // Change mark icon on image thumb in main view
+  imageE.style.backgroundImage="url('/static/icons/mark.png')";
+  imageE.dataset.isMarked = true;
+
   let markId = imageE.dataset.markId;
   let imageSrc = imageE.parentNode.parentNode.querySelector('.post-image').src;
   let title = imageE.parentNode.parentNode.parentNode.querySelector('.post-title').innerText;
-  state.selectedImages.push({title:title, src:imageSrc, id:markId});
+  let time = '';
 
+  state.selectedImages.push({title:title, src:imageSrc, id:markId, publishTime:time});
   document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+
+  setupSelectedImageSidebar();
 };
 
 // Add event listener on cross icon
-function setUpRemoveSchedule(){
-  let removeAll = document.querySelectorAll('.remove-schedule');
+function setUpRemoveSidebarItem() {
+  let allItems = document.querySelectorAll('.remove-schedule');
 
-  for (let i = 0; i < removeAll.length; i++) {
-    let cancel = removeAll[i];
-
-    cancel.addEventListener('click', function(event) {
+  allItems.forEach(function (item) {
+    item.addEventListener('click', function(event) {
       let removeE = event.target;
-      removeScheduler(removeE);
+
+      removeSidebarItem(removeE);
     });
-  }
+  });
 }
 
-// remove marked image form side-bar when click on cross
-let removeScheduler = (removeE) => {
+// remove selected image form side-bar when click on cross icon in sidebar item
+let removeSidebarItem = (removeE) => {
   let index = state
       .selectedImages
       .map(o => o.src)
       .indexOf(removeE.parentNode.querySelector('.small-image').src);
+
   let removedImage = state.selectedImages.splice(index, 1);
   let allImages = document.querySelectorAll('.mark-icon');
 
   for (let i = 0; i < allImages.length; i++) {
     let unMark = allImages[i];
-    if(removedImage[0].id === unMark.dataset.markId)
+    if(removedImage[0].id === unMark.dataset.markId) {
       unMark.style.backgroundImage="url('/static/icons/un-mark.png')";
+      unMark.dataset.isMarked = false;
+      document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+    }
   }
-  document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-  timePicker();
+  setupSelectedImageSidebar();
 };
 
-// Add cancel button when schedule is clicked
-function setUpSchedule() {
-  let allSchedule = document.querySelectorAll('.done');
+// Add cancel button when schedule button is clicked
+function setupScheduleButton() {
+  let allDoneButtons = document.querySelectorAll('.doneButton');
 
-  for (let i = 0; i < allSchedule.length; i++){
-    let done = allSchedule[i];
+  allDoneButtons.forEach((doneButton) => {
+    doneButton.addEventListener('click', function(event){
+      let button = event.target;
 
-    done.addEventListener('click', function(event){
-      let doneElement = event.target;
+      button.innerHTML = 'Cancel';
 
-      setScheduler(doneElement);
+      let timeEl = button.parentNode.querySelector('.set-time');
+      let imgSrc = button.parentNode.querySelector('.small-image').src;
+
+      button.setAttribute('disabled', 'disabled');
+
+      state.selectedImages.forEach((image) => {
+        if (image.src === imgSrc){
+          image.publishTime = timeEl.value;
+        }
+      });
     });
-  }
+  });
 }
 
-let setScheduler = (buttonE) => {
-  let parent = buttonE.parentNode;
-  buttonE.innerHTML = 'Cancel';
-};
 
 // function takes url and returns inner html
 function makeSelectedImagesHtml (urls) {
@@ -282,11 +300,11 @@ function makeSelectedImagesHtml (urls) {
                  <span class='remove-schedule'></span>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
-                 <input type="time" name="time" placeholder="Set time" id="set-time" />
+                 <input type="time" name="time" placeholder="Set time" class="set-time" />
                  <div class="side-image">
                  <video mute class="small-image" src='${value.src}'></video>
                  </div>
-                 <a class="done">schedule</a>
+                 <button class="doneButton">schedule</button>
                </div>`;
     } else {
       html += `<div class="post-time">
@@ -294,11 +312,11 @@ function makeSelectedImagesHtml (urls) {
                  <div class='spinner' style='display:none;'></div>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
-                 <input type="time" name="time" placeholder="Set time" id="set-time" />
+                 <input type="time" name="time" placeholder="Set time" class="set-time" />
                  <div class="side-image">
                  <img class="small-image" src='${value.src}'>
                  </div>
-                 <a class="done">schedule</a>
+                 <button class="doneButton">schedule</button>
                </div>`;
     }
   }
@@ -307,7 +325,7 @@ function makeSelectedImagesHtml (urls) {
 
 // add time picker
 function timePicker(){
-  const time = flatpickr('#set-time', {
+  const time = flatpickr('.set-time', {
     enableTime: true,
     noCalendar: true,
     enableSeconds: false,
@@ -318,9 +336,9 @@ function timePicker(){
   });
 }
 
-setUpForPublish();
-setUpBigimageViewer();
-nextBigImage();
-previousBigImage();
-hideBigImage();
-setUpMark();
+// setUpForPublish();
+// setUpBigimageViewer();
+// nextBigImage();
+// previousBigImage();
+// hideBigImage();
+setUpSelectImage();
