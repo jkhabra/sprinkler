@@ -151,7 +151,7 @@
   white-space: nowrap;
 }
 
-#set-time {
+.set-time {
   grid-column: 1;
   grid-row: 3;
   width: 8em;
@@ -171,8 +171,8 @@
   border: 1px solid #33987a;
   color: #fff;
   width: 6em;
-  border-radius: 5px;
-  padding: 8px;
+  border-radius: 3px;
+  padding: 6px;
   background: #33987a;
   grid-column: 1;
   grid-row: 4;
@@ -222,7 +222,7 @@
   padding: 2em;
 }
 
-.big, .b-image{
+.big{
   -webkit-animation-name: zoom;
   -webkit-animation-duration: 0.6s;
   animation-name: zoom;

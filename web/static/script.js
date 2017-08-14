@@ -9,20 +9,20 @@ function setUpBigimageViewer() {
   let allImages = document.querySelectorAll('.post-image');
 
   // add click event on all images to show them in big image viewer
-  for (let i = 0; i < allImages.length; i++) {
-    let image = allImages[i];
 
-    image.addEventListener('click', function (event) {
+  allImages.forEach(function (image) {
+    image.addEventListener('click', (event) => {
       event.stopPropagation();
       let img = event.target;
       let imageSource = new URL(img.src).pathname;
 
       displayBigImage(imageSource);
     });
-  }
+  });
 
   document.body.addEventListener('click', (event) => {
     let target = event.target;
+
     hideBigImage(target);
   });
 }
@@ -91,6 +91,7 @@ let allImages = (image, nextImage) =>{
   for(let i = 0; i < allImages.length; i++) {
     if (allImages[i].src === image){
       let bigImageIndex = i;
+      window.b  = bigImageIndex;
       if ( typeof(nextImage) ==='undefined') nextImage = allImages[bigImageIndex + 1].src;
       if ( nextImage === 'previous') nextImage = allImages[bigImageIndex - 1].src;
 
@@ -114,21 +115,19 @@ let allImages = (image, nextImage) =>{
 function setUpForPublish() {
   let allButtons = document.querySelectorAll('.publish-button');
 
-  for (let i = 0; i < allButtons.length; i++) {
-    let button = allButtons[i];
-
+  allButtons.forEach(function (button) {
     button.addEventListener('click', function(event) {
-      let btn = event.target;
 
+      let btn = event.target;
       publish(btn);
     });
-  }
+  });
 };
 
 
 // Publish post on Facebook
 let publish = (button) => {
-  let url = '/publish-photo?id=' + btn.dataset.photoId;
+  let url = '/publish-photo?id=' + button.dataset.photoId;
   let parent = button.parentNode;
 
   parent.querySelector('.spinner').style.display='';
@@ -168,15 +167,12 @@ let publish = (button) => {
 function setUpSelectImage() {
   let allMarks = document.querySelectorAll('.mark-icon');
 
-  for (let i = 0; i < allMarks.length; i++) {
-    let mark = allMarks[i];
-
-    mark.addEventListener('click', function(event) {
+  allMarks.forEach(function (markIcon){
+    markIcon.addEventListener('click', function(event) {
       let markElement = event.target;
-
       markImage(markElement);
     });
-  }
+  });
 }
 
 // Mark/Unmark check boxes on images
@@ -266,7 +262,7 @@ let removeSidebarItem = (removeE) => {
 
 // Add cancel button when schedule button is clicked
 function setupScheduleButton() {
-  let allDoneButtons = document.querySelectorAll('.doneButton');
+  let allDoneButtons = document.querySelectorAll('.done');
 
   allDoneButtons.forEach((doneButton) => {
     doneButton.addEventListener('click', function(event){
@@ -304,7 +300,7 @@ function makeSelectedImagesHtml (urls) {
                  <div class="side-image">
                  <video mute class="small-image" src='${value.src}'></video>
                  </div>
-                 <button class="doneButton">schedule</button>
+                 <button class="done">schedule</button>
                </div>`;
     } else {
       html += `<div class="post-time">
@@ -316,7 +312,7 @@ function makeSelectedImagesHtml (urls) {
                  <div class="side-image">
                  <img class="small-image" src='${value.src}'>
                  </div>
-                 <button class="doneButton">schedule</button>
+                 <button class="done">schedule</button>
                </div>`;
     }
   }
@@ -336,9 +332,9 @@ function timePicker(){
   });
 }
 
-// setUpForPublish();
-// setUpBigimageViewer();
-// nextBigImage();
-// previousBigImage();
-// hideBigImage();
+ setUpForPublish();
+setUpBigimageViewer();
+nextBigImage();
+previousBigImage();
+hideBigImage();
 setUpSelectImage();
