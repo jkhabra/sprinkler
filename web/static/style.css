@@ -180,6 +180,11 @@
   margin-left: 7em;
 }
 
+.cancel-button{
+  background: #d45463;
+  border: 1px solid #d45463;
+}
+
 .side-image {
   height: 5em;
   width: 4.1em;

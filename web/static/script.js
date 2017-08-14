@@ -190,6 +190,7 @@ let setupSelectedImageSidebar = () => {
   timePicker();
   setUpRemoveSidebarItem();
   setupScheduleButton();
+  setupCancelButton();
 };
 
 // remove image from selected images state
@@ -268,13 +269,13 @@ function setupScheduleButton() {
     doneButton.addEventListener('click', function(event){
       let button = event.target;
 
-      button.innerHTML = 'Cancel';
+      button.style.display='none';
+      button.parentNode.querySelector('.cancel-button').style.display='';
 
       let timeEl = button.parentNode.querySelector('.set-time');
       let imgSrc = button.parentNode.querySelector('.small-image').src;
 
-      button.setAttribute('disabled', 'disabled');
-
+      console.warn('Saving schedule in state');
       state.selectedImages.forEach((image) => {
         if (image.src === imgSrc){
           image.publishTime = timeEl.value;
@@ -284,6 +285,20 @@ function setupScheduleButton() {
   });
 }
 
+// Add schedule button when cancel button is clicked
+function setupCancelButton() {
+  let allCancelButtons = document.querySelectorAll('.cancel-button');
+
+  allCancelButtons.forEach((cancelButton) =>{
+    cancelButton.addEventListener('click', function(event){
+      let button = event.target;
+
+      button.parentNode.querySelector('.set-time').value = '';
+      button.style.display='none';
+      button.parentNode.querySelector('.schedule').style.display='';
+    });
+  });
+}
 
 // function takes url and returns inner html
 function makeSelectedImagesHtml (urls) {
@@ -300,6 +315,7 @@ function makeSelectedImagesHtml (urls) {
                  <div class="side-image">
                  <video mute class="small-image" src='${value.src}'></video>
                  </div>
+                 <button class="done cancel-button" style='display:none;'>Cancel</button>
                  <button class="done">schedule</button>
                </div>`;
     } else {
@@ -312,7 +328,8 @@ function makeSelectedImagesHtml (urls) {
                  <div class="side-image">
                  <img class="small-image" src='${value.src}'>
                  </div>
-                 <button class="done">schedule</button>
+                 <button class="done cancel-button" style='display:none;'>Cancel</button>
+                 <button class="done schedule">schedule</button>
                </div>`;
     }
   }
