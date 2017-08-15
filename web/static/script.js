@@ -268,18 +268,25 @@ function setupScheduleButton() {
   allDoneButtons.forEach((doneButton) => {
     doneButton.addEventListener('click', function(event){
       let button = event.target;
-
-      button.style.display='none';
-      button.parentNode.querySelector('.cancel-button').style.display='';
-
       let timeEl = button.parentNode.querySelector('.set-time');
       let imgSrc = button.parentNode.querySelector('.small-image').src;
 
-      state.selectedImages.forEach((image) => {
-        if (image.src === imgSrc){
-          image.publishTime = timeEl.value;
-        }
-      });
+      if (timeEl.value === ''){
+        button.parentNode.querySelector('.set-time').style.border='2px solid #e23b3b';
+        document.querySelector('.error-box').style.display='';
+      }
+      else {
+        button.style.display='none';
+        button.parentNode.querySelector('.cancel-button').style.display='';
+        button.parentNode.querySelector('.set-time').style.border='';
+        document.querySelector('.error-box').style.display='none';
+
+        state.selectedImages.forEach((image) => {
+          if (image.src === imgSrc){
+            image.publishTime = timeEl.value;
+          }
+        });
+      }
     });
   });
 }
