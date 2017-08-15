@@ -250,14 +250,14 @@ let removeSidebarItem = (removeE) => {
   let removedImage = state.selectedImages.splice(index, 1);
   let allImages = document.querySelectorAll('.mark-icon');
 
-  for (let i = 0; i < allImages.length; i++) {
-    let unMark = allImages[i];
+  allImages.forEach((unMark) =>{
+
     if(removedImage[0].id === unMark.dataset.markId) {
       unMark.style.backgroundImage="url('/static/icons/un-mark.png')";
       unMark.dataset.isMarked = false;
       document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
     }
-  }
+  });
   setupSelectedImageSidebar();
 };
 
@@ -275,7 +275,6 @@ function setupScheduleButton() {
       let timeEl = button.parentNode.querySelector('.set-time');
       let imgSrc = button.parentNode.querySelector('.small-image').src;
 
-      console.warn('Saving schedule in state');
       state.selectedImages.forEach((image) => {
         if (image.src === imgSrc){
           image.publishTime = timeEl.value;
@@ -296,6 +295,14 @@ function setupCancelButton() {
       button.parentNode.querySelector('.set-time').value = '';
       button.style.display='none';
       button.parentNode.querySelector('.schedule').style.display='';
+
+      let imgSrc = button.parentNode.querySelector('.small-image').src;
+
+      state.selectedImages.forEach((image) => {
+        if (image.src === imgSrc){
+          image.publishTime = '';
+        }
+      });
     });
   });
 }
