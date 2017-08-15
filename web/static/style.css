@@ -158,6 +158,10 @@
   margin-left: 8em;
 }
 
+.pccolor::-webkit-input-placeholder{
+  color: red;
+}
+
 .set {
   grid-column: 1;
   grid-row: 2;
@@ -274,21 +278,69 @@
   width: 3%;
 }
 
-.error-box {
+.error-box, .success-box  {
   background: rgba(0, 0, 0, 0.77);
   height: 4em;
   position: fixed;
   width: 15em;
   bottom: 2em;
-  /* right: 0; */
   z-index: 95;
   display: flex;
   margin-left: 30em;
 }
 
-.error-message {
+.error-message, .success-message {
   color: #fff;
   margin: auto;
+  margin-right: 2.5em;
+}
+
+.error-message{
+  margin-right: 1.5em;
+}
+
+.add-icon {
+  background-image: url(/static/icons/mark.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 2em;
+  height: 2em;
+  margin: auto;
+  margin-left: 1.5em;
+}
+
+.error-icon{
+  background-image: url(/static/icons/att2.png);
+  margin-left: 1em;
+}
+
+.error-box, .success-box{
+  -moz-animation: cssAnimation 0s ease-in 2s forwards;
+  /* Firefox */
+  -webkit-animation: cssAnimation 0s ease-in 2s forwards;
+  /* Safari and Chrome */
+  -o-animation: cssAnimation 0s ease-in 2s forwards;
+  /* Opera */
+  animation: cssAnimation 0s ease-in 2s forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+@keyframes cssAnimation {
+  to {
+    width:0;
+    height:0;
+    padding: 0;
+    overflow:hidden;
+  }
+}
+@-webkit-keyframes cssAnimation {
+  to {
+    width:0;
+    height:0;
+    paddig: 0;
+    margin-top: 0;
+    display: none;
+  }
 }
 
 .thumb {

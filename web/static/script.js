@@ -33,7 +33,8 @@ let displayBigImage = (imageSource) => {
     bigImageEl.style.display = '';
 
     if (imageSource.endsWith('.mp4')) {
-        bigImageEl.querySelector('.big-video').src = imageSource;
+
+     bigImageEl.querySelector('.big-video').src = imageSource;
         bigImageEl.querySelector('.big-video').style.display = '';
         bigImageEl.querySelector('img').style.display = 'none';
     } else {
@@ -270,16 +271,17 @@ function setupScheduleButton() {
       let button = event.target;
       let timeEl = button.parentNode.querySelector('.set-time');
       let imgSrc = button.parentNode.querySelector('.small-image').src;
+      document.querySelector('.error-box').style.display='none';
 
       if (timeEl.value === ''){
         button.parentNode.querySelector('.set-time').style.border='2px solid #e23b3b';
-        document.querySelector('.error-box').style.display='';
+        document.querySelector('.set-time').classList.add('pccolor');
       }
       else {
         button.style.display='none';
         button.parentNode.querySelector('.cancel-button').style.display='';
         button.parentNode.querySelector('.set-time').style.border='';
-        document.querySelector('.error-box').style.display='none';
+        document.querySelector('.success-box').style.display='';
 
         state.selectedImages.forEach((image) => {
           if (image.src === imgSrc){
@@ -302,6 +304,9 @@ function setupCancelButton() {
       button.parentNode.querySelector('.set-time').value = '';
       button.style.display='none';
       button.parentNode.querySelector('.schedule').style.display='';
+      document.querySelector('.success-box').style.display='none';
+      document.querySelector('.error-box').style.display='';
+      document.querySelector('.set-time').classList.remove('pccolor');
 
       let imgSrc = button.parentNode.querySelector('.small-image').src;
 
