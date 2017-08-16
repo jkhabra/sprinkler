@@ -151,7 +151,7 @@
   white-space: nowrap;
 }
 
-.set-time {
+.set-time, .show-time {
   grid-column: 1;
   grid-row: 3;
   width: 8em;

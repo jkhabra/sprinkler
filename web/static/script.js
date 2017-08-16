@@ -270,6 +270,7 @@ function setupScheduleButton() {
       let button = event.target;
       let timeEl = button.parentNode.querySelector('.set-time');
       let imgSrc = button.parentNode.querySelector('.small-image').src;
+      let parent = button.parentNode;
       document.querySelector('.remove-box').style.display='none';
 
       if (timeEl.value === ''){
@@ -278,8 +279,12 @@ function setupScheduleButton() {
       }
       else {
         button.style.display='none';
-        button.parentNode.querySelector('.cancel-button').style.display='';
-        button.parentNode.querySelector('.set-time').style.border='';
+        parent.querySelector('.cancel-button').style.display='';
+        parent.querySelector('.set-time').style.border='';
+        parent.querySelector('.set-time').style.display='none';
+        parent.querySelector('.show-time').style.display='';
+        parent.querySelector('.show-time').value = timeEl.value;
+
         document.querySelector('.success-box').style.display='';
 
         state.selectedImages.forEach((image) => {
@@ -300,14 +305,16 @@ function setupCancelButton() {
     cancelButton.addEventListener('click', function(event){
       let button = event.target;
 
-      button.parentNode.querySelector('.set-time').value = '';
       button.style.display='none';
       button.parentNode.querySelector('.schedule').style.display='';
+      document.querySelector('.set-time').style.display='';
+      document.querySelector('.show-time').style.display='none';
+      button.parentNode.querySelector('.set-time').value = '';
 
       document.querySelector('.success-box').style.display='none';
       document.querySelector('.remove-box').style.display='';
       document.querySelector('.set-time').classList.remove('pccolor');
-
+      timePicker();
       let imgSrc = button.parentNode.querySelector('.small-image').src;
 
       state.selectedImages.forEach((image) => {
@@ -334,7 +341,8 @@ function makeSelectedImagesHtml (urls) {
                  <div class='spinner' style='display:none;'></div>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
-                 <input type="text" name="time" placeholder="Set time" value=${value.publishTime} class="set-time" />
+                 <input type='text' name='text' class='show-time' value=${value.publishTime}>
+                 <input type="time" name="time" placeholder="Set time" class="set-time">
                  <div class="side-image">
                  ${source}
                  </div>
@@ -348,7 +356,8 @@ function makeSelectedImagesHtml (urls) {
                  <div class='spinner' style='display:none;'></div>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
-                 <input type="time" name="time" placeholder="Set time" class="set-time" />
+                 <input type='text' name='text' class='show-time' style='display:none;'>
+                 <input type="time" name="time" placeholder="Set time" class="set-time">
                  <div class="side-image">
                  ${source}
                  </div>
