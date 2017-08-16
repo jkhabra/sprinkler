@@ -252,8 +252,7 @@ let removeSidebarItem = (removeE) => {
   let allImages = document.querySelectorAll('.mark-icon');
 
   allImages.forEach((unMark) =>{
-
-    if(removedImage[0].id === unMark.dataset.markId) {
+    if (removedImage[0].id === unMark.dataset.markId) {
       unMark.style.backgroundImage="url('/static/icons/un-mark.png')";
       unMark.dataset.isMarked = false;
       document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
@@ -271,11 +270,11 @@ function setupScheduleButton() {
       let button = event.target;
       let timeEl = button.parentNode.querySelector('.set-time');
       let imgSrc = button.parentNode.querySelector('.small-image').src;
-      document.querySelector('.error-box').style.display='none';
+      document.querySelector('.remove-box').style.display='none';
 
       if (timeEl.value === ''){
         button.parentNode.querySelector('.set-time').style.border='2px solid #e23b3b';
-        document.querySelector('.set-time').classList.add('pccolor');
+        button.parentNode.querySelector('.set-time').classList.add('pccolor');
       }
       else {
         button.style.display='none';
@@ -304,8 +303,9 @@ function setupCancelButton() {
       button.parentNode.querySelector('.set-time').value = '';
       button.style.display='none';
       button.parentNode.querySelector('.schedule').style.display='';
+
       document.querySelector('.success-box').style.display='none';
-      document.querySelector('.error-box').style.display='';
+      document.querySelector('.remove-box').style.display='';
       document.querySelector('.set-time').classList.remove('pccolor');
 
       let imgSrc = button.parentNode.querySelector('.small-image').src;
@@ -325,27 +325,32 @@ function makeSelectedImagesHtml (urls) {
   for (let key in state.selectedImages) {
     let value = state.selectedImages[key];
 
-    if (value.src.endsWith('.mp4')){
+    let source = `<img class='small-image' src=${value.src}>`;
+    if( value.src.endsWith('mp4'))source = `<video mute class='small-image' src='${value.src}'></video>`;
+
+    if (value.publishTime !== ''){
       html += `<div class="post-time">
                  <span class='remove-schedule'></span>
+                 <div class='spinner' style='display:none;'></div>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
-                 <input type="time" name="time" placeholder="Set time" class="set-time" />
+                 <input type="text" name="time" placeholder="Set time" value=${value.publishTime} class="set-time" />
                  <div class="side-image">
-                 <video mute class="small-image" src='${value.src}'></video>
+                 ${source}
                  </div>
-                 <button class="done cancel-button" style='display:none;'>Cancel</button>
-                 <button class="done">schedule</button>
+                 <button class="done cancel-button">Cancel</button>
+                 <button class="done schedule" style='display:none;'>schedule</button>
                </div>`;
-    } else {
-      html += `<div class="post-time">
+    }
+    else{
+    html += `<div class="post-time">
                  <span class='remove-schedule'></span>
                  <div class='spinner' style='display:none;'></div>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
                  <input type="time" name="time" placeholder="Set time" class="set-time" />
                  <div class="side-image">
-                 <img class="small-image" src='${value.src}'>
+                 ${source}
                  </div>
                  <button class="done cancel-button" style='display:none;'>Cancel</button>
                  <button class="done schedule">schedule</button>

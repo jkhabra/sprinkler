@@ -278,7 +278,7 @@
   width: 3%;
 }
 
-.error-box, .success-box  {
+.remove-box, .success-box  {
   background: rgba(0, 0, 0, 0.77);
   height: 4em;
   position: fixed;
@@ -314,7 +314,7 @@
   margin-left: 1em;
 }
 
-.error-box, .success-box{
+.remove-box, .success-box{
   -moz-animation: cssAnimation 0s ease-in 2s forwards;
   /* Firefox */
   -webkit-animation: cssAnimation 0s ease-in 2s forwards;
