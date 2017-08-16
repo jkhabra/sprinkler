@@ -280,7 +280,6 @@ function setupScheduleButton() {
       else {
         button.style.display='none';
         parent.querySelector('.cancel-button').style.display='';
-        parent.querySelector('.set-time').style.border='';
         parent.querySelector('.set-time').style.display='none';
         parent.querySelector('.show-time').style.display='';
         parent.querySelector('.show-time').value = timeEl.value;
@@ -314,7 +313,7 @@ function setupCancelButton() {
       document.querySelector('.success-box').style.display='none';
       document.querySelector('.remove-box').style.display='';
       document.querySelector('.set-time').classList.remove('pccolor');
-      timePicker();
+      document.querySelector('.set-time').style.border='';
       let imgSrc = button.parentNode.querySelector('.small-image').src;
 
       state.selectedImages.forEach((image) => {
@@ -338,11 +337,10 @@ function makeSelectedImagesHtml (urls) {
     if (value.publishTime !== ''){
       html += `<div class="post-time">
                  <span class='remove-schedule'></span>
-                 <div class='spinner' style='display:none;'></div>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
-                 <input type='text' name='text' class='show-time' value=${value.publishTime}>
-                 <input type="time" name="time" placeholder="Set time" class="set-time">
+                 <input type='text' name='text' class='show-time' value=${value.publishTime} disabled>
+                 <input type="time" name="time" placeholder="Set time" class="set-time" style=display:none;'>
                  <div class="side-image">
                  ${source}
                  </div>
@@ -353,10 +351,9 @@ function makeSelectedImagesHtml (urls) {
     else{
     html += `<div class="post-time">
                  <span class='remove-schedule'></span>
-                 <div class='spinner' style='display:none;'></div>
                  <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
-                 <input type='text' name='text' class='show-time' style='display:none;'>
+                 <input type='text' name='text' class='show-time' style='display:none;' disabled>
                  <input type="time" name="time" placeholder="Set time" class="set-time">
                  <div class="side-image">
                  ${source}
