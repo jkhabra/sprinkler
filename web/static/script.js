@@ -164,6 +164,7 @@ let publish = (button) => {
   button.setAttribute('disabled', 'disabled');
 };
 
+
 // Add event listener on mark icon
 function setUpSelectImage() {
   let allMarks = document.querySelectorAll('.mark-icon');
@@ -184,8 +185,17 @@ let markImage = (imageE) => {
   else {
     selectImage(imageE);
   }
+  hideSideMessage();
 };
 
+let hideSideMessage = () =>{
+  if (state.selectedImages.length > 0) {
+    document.querySelector('.marked-header').style.display='none';
+  }
+  else{
+    document.querySelector('.marked-header').style.display='';
+  }
+};
 
 let setupSelectedImageSidebar = () => {
   timePicker();
@@ -258,6 +268,7 @@ let removeSidebarItem = (removeE) => {
       document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
     }
   });
+  hideSideMessage();
   setupSelectedImageSidebar();
 };
 

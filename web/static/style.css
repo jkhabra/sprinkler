@@ -96,12 +96,13 @@
 
 .marked-header{
   line-height: 1.7;
-  font-size: 2.6vw;
+  font-size: 2.3vw;
   font-family: Verdana;
   text-align: center;
-  padding: 10px;
-  margin-top: 35px;
+  padding: 20px;
+  margin-top: 3em;
   cursor: pointer;
+  text-shadow: 0 0 5px #fff, 2px 3px 10px rgba(0,0,0,0.45);
 }
 
 .marked-images {
