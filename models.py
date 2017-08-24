@@ -64,6 +64,17 @@ class User(Base):
         return self.id
 
 
+class SchedulePost(Base):
+    __tablename__ = 'schedule_posts'
+    id = Column(Integer, primary_key=True)
+    publish_time = Column(String(15), nullable=False)
+    post_id = Column(Integer, ForeignKey('post.id'))
+    post = relationship(Post)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    update_at = Column(DateTime, default=datetime.datetime.utcnow)
+
 class Comments(Base):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True)

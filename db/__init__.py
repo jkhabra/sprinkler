@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Post, RedditUser, User, Base
+from models import Post, RedditUser, User, SchedulePost,  Base
 import os
 
 def get_session():
