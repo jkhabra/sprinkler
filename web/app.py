@@ -3,7 +3,7 @@ from flask.json import jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user, logout_user
 from facebook import GraphAPI
 from os import path
-from models import Post, Image, User
+from models import Post, Image, User, SchedulePost
 from db import get_session
 
 app = Flask(__name__)
@@ -24,6 +24,7 @@ redirect_uri = 'http://localhost:5000/accept-fb-token'
 def load_user(id):
     db_session = get_session()
     return db_session.query(User).get(int(id))
+
 
 @app.route('/')
 def login():
@@ -95,7 +96,7 @@ def page_selection():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect('/') 
+    return redirect('/')
 
 
 @app.route('/publish-photo')
@@ -128,5 +129,26 @@ def publish_photo():
     db_session.close()
 
     return jsonify({
+        'status': 'success'
+    })
+
+
+@app.route('/schedule-post')
+def schedule_post():
+    post_id = request.args.get('post_id')
+    publish_time = request.args.get('publish_time')
+    db_session = get_session()
+    try:
+        new_schedule = SchedulePost(publish_time=publish_time, post_id=post_id, user_id=1)
+        db_session.add(new_schedule)
+        db_session.commit()
+    except Exception as error:
+        return jsonify({
+            'status': 'error',
+            'message': 'Could not add post into database :('
+        })
+    db_session.close()
+
+    return jsonify ({
         'status': 'success'
     })

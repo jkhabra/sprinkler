@@ -143,7 +143,6 @@ let publish = (button) => {
       console.warn(res);
 
       if (res.status === 'ok' || res.status === 'success') {
-        console.log('Your post successfully posted to Facebook');
         parent.querySelector('.spinner').style.display='none';
         parent.querySelector('.post-image').classList.add('thumb2');
         parent.querySelector('.success').style.display='';
@@ -281,6 +280,7 @@ function setupScheduleButton() {
       let button = event.target;
       let timeEl = button.parentNode.querySelector('.set-time');
       let imgSrc = button.parentNode.querySelector('.small-image').src;
+      let postId = imgSrc.split('/')[5].split('.')[0];
       let parent = button.parentNode;
       document.querySelector('.remove-box').style.display='none';
 
@@ -303,9 +303,27 @@ function setupScheduleButton() {
           }
         });
       }
+      scheduleToDb(postId, timeEl.value);
     });
   });
 }
+
+let scheduleToDb = (postId, publishTime) => {
+
+  let scheduleUrl = `/schedule-post?post_id=${postId}&publish_time=${publishTime}`;
+
+  fetch(scheduleUrl)
+    .then(function(response) {
+      return response.json();
+      // showNotification('Yay it worked', {type: 'successs'});
+    }).then(function(res) {
+      console.log(res);
+    })
+    .catch(function (error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+      // showNotification('It failed :(', {type: 'error'});
+    });
+};
 
 // Add schedule button when cancel button is clicked
 function setupCancelButton() {
@@ -356,7 +374,7 @@ function makeSelectedImagesHtml (urls) {
                  ${source}
                  </div>
                  <button class="done cancel-button">Cancel</button>
-                 <button class="done schedule" style='display:none;'>schedule</button>
+                 <button class="done schedule" style='display:none;'>Schedule</button>
                </div>`;
     }
     else{
@@ -370,7 +388,7 @@ function makeSelectedImagesHtml (urls) {
                  ${source}
                  </div>
                  <button class="done cancel-button" style='display:none;'>Cancel</button>
-                 <button class="done schedule">schedule</button>
+                 <button class="done schedule">Schedule</button>
                </div>`;
     }
   }

@@ -208,7 +208,7 @@
   grid-template-columns: 36% 36%;
   grid-template-rows: 31em;
   grid-gap: 2em;
-  padding: 3em 5em 8em 5em;
+  padding: 3em 0em 8em 5em;
 }
 
 .post {
