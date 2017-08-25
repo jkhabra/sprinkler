@@ -133,12 +133,16 @@
   background-size: contain;
   /* position: absolute; */
   grid-row: 1;
-  margin-left: -2em;
+  margin-left: -1.2em;
   grid-column: 2;
   background-repeat: no-repeat;
   cursor: pointer;
   user-select: none;
   background-image: url(/static/icons/c.png);
+}
+
+.remove-schedule:hover{
+  transform: scale(1.5);
 }
 
 .side-title {
@@ -277,6 +281,10 @@
   left: 10em;
   top: 20em;
   width: 3%;
+}
+
+.right:hover, .left:hover, .cancel:hover {
+  transform: scale(1.3);
 }
 
 .remove-box, .success-box  {
