@@ -269,6 +269,7 @@ let removeSidebarItem = (removeE) => {
   });
   hideSideMessage();
   setupSelectedImageSidebar();
+  scheduleToDb(removeE);
 };
 
 // Add cancel button when schedule button is clicked
@@ -297,20 +298,56 @@ function setupScheduleButton() {
 
         document.querySelector('.success-box').style.display='';
 
+        let scheduleUrl = `/schedule-post?post_id=${postId}&publish_time=${timeEl.value}`;
+        scheduleToDb(button, scheduleUrl);
+
         state.selectedImages.forEach((image) => {
           if (image.src === imgSrc){
             image.publishTime = timeEl.value;
           }
         });
       }
-      scheduleToDb(postId, timeEl.value);
     });
   });
 }
 
-let scheduleToDb = (postId, publishTime) => {
 
-  let scheduleUrl = `/schedule-post?post_id=${postId}&publish_time=${publishTime}`;
+// Add schedule button when cancel button is clicked
+function setupCancelButton() {
+  let allCancelButtons = document.querySelectorAll('.cancel-button');
+
+  allCancelButtons.forEach((cancelButton) =>{
+    cancelButton.addEventListener('click', function(event){
+      let button = event.target;
+
+      button.style.display='none';
+      button.parentNode.querySelector('.schedule').style.display='';
+      button.parentNode.querySelector('.show-time').style.display='none';
+      button.parentNode.querySelector('.set-time').style.display='';
+      button.parentNode.querySelector('.set-time').value = '';
+
+      document.querySelector('.success-box').style.display='none';
+      document.querySelector('.remove-box').style.display='';
+      document.querySelector('.set-time').classList.remove('pccolor');
+      document.querySelector('.set-time').style.border='';
+      let imgSrc = button.parentNode.querySelector('.small-image').src;
+
+      scheduleToDb(button);
+
+      state.selectedImages.forEach((image) => {
+        if (image.src === imgSrc){
+          image.publishTime = '';
+        }
+      });
+    });
+  });
+}
+
+
+let scheduleToDb = (button, scheduleUrl) => {
+  let imgSrc = button.parentNode.querySelector('.small-image').src;
+  let postId = imgSrc.split('/')[5].split('.')[0];
+  if (typeof(scheduleUrl) === 'undefined') scheduleUrl =  scheduleUrl = `/cancel-schedule-post?post_id=${postId}`;
 
   fetch(scheduleUrl)
     .then(function(response) {
@@ -325,34 +362,6 @@ let scheduleToDb = (postId, publishTime) => {
     });
 };
 
-// Add schedule button when cancel button is clicked
-function setupCancelButton() {
-  let allCancelButtons = document.querySelectorAll('.cancel-button');
-
-  allCancelButtons.forEach((cancelButton) =>{
-    cancelButton.addEventListener('click', function(event){
-      let button = event.target;
-
-      button.style.display='none';
-      button.parentNode.querySelector('.schedule').style.display='';
-      document.querySelector('.set-time').style.display='';
-      document.querySelector('.show-time').style.display='none';
-      button.parentNode.querySelector('.set-time').value = '';
-
-      document.querySelector('.success-box').style.display='none';
-      document.querySelector('.remove-box').style.display='';
-      document.querySelector('.set-time').classList.remove('pccolor');
-      document.querySelector('.set-time').style.border='';
-      let imgSrc = button.parentNode.querySelector('.small-image').src;
-
-      state.selectedImages.forEach((image) => {
-        if (image.src === imgSrc){
-          image.publishTime = '';
-        }
-      });
-    });
-  });
-}
 
 // function takes url and returns inner html
 function makeSelectedImagesHtml (urls) {

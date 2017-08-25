@@ -139,9 +139,10 @@ def schedule_post():
     publish_time = request.args.get('publish_time')
     db_session = get_session()
     try:
-        new_schedule = SchedulePost(publish_time=publish_time, post_id=post_id, user_id=1)
-        db_session.add(new_schedule)
-        db_session.commit()
+        if not db_session.query(SchedulePost).filter(SchedulePost.post_id == post_id).all():
+            new_schedule = SchedulePost(publish_time=publish_time, post_id=post_id, user_id=1)
+            db_session.add(new_schedule)
+            db_session.commit()
     except Exception as error:
         return jsonify({
             'status': 'error',
@@ -151,4 +152,25 @@ def schedule_post():
 
     return jsonify ({
         'status': 'success'
+    })
+
+@app.route('/cancel-schedule-post')
+def cancel_schedule_post():
+    post_id = request.args.get('post_id')
+    db_session = get_session()
+
+    try:
+        old_schedule = db_session.query(SchedulePost).filter(SchedulePost.post_id == post_id).one()
+        db_session.delete(old_schedule)
+        db_session.commit()
+    except Exception as error:
+        return jsonify({
+            'status': 'error',
+            'message': 'Could not cancel post into database :('
+        })
+    db_session.close()
+
+    return jsonify ({
+        'status': 'success',
+        'message': 'Schedule has been canceled :('
     })
