@@ -85,9 +85,16 @@ def show_posts():
     """
     db_session = get_session()
     data = db_session.query(Post, Image).join(Image).filter(Image.local_url != None)
+    schedule_posts = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user)
+    schedule_data = []
+
+    for i in schedule_posts:
+        title = db_session.query(Post).filter(Post.id == i.post_id).one()
+        src = db_session.query(Image).filter(Image.post_id == i.post_id).one()
+        schedule_data.append({'id':i.post_id, 'publish_time':i.publish_time, 'title':title.title, 'src':src.local_url})
     db_session.close()
 
-    return render_template('posts.html', posts=data)
+    return render_template('posts.html', posts=data, schedule=schedule_data)
 
 
 @app.route('/page_selection')
@@ -140,10 +147,11 @@ def schedule_post():
     post_id = request.args.get('post_id')
     publish_time = request.args.get('publish_time')
     db_session = get_session()
+    user_id = current_user
 
     try:
         if not db_session.query(SchedulePost).filter(SchedulePost.post_id == post_id).all():
-            new_schedule = SchedulePost(publish_time=publish_time, post_id=post_id, user_id=current_user)
+            new_schedule = SchedulePost(publish_time=publish_time, post_id=post_id, user_id=user_id)
             db_session.add(new_schedule)
             db_session.commit()
     except Exception as error:

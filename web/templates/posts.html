@@ -55,6 +55,19 @@
 </div>
 <link rel="stylesheet" type=text/css href='/static/flatpickr.min.css'>
 <script src="/static/flatpickr.min.js"></script>
-<script src='/static/script.js'></script>
 
+<script>
+ INITIAL_STATE = {
+
+   isBigPictureVisible: false,
+   allImages: document.querySelectorAll('.post-image'),
+   selectedImages:[
+     {% for i in schedule %}
+     {id:{{i.id}}, publishTime: '{{i.publish_time}}',src:'{{i.src}}',title:'{{i.title}}'},
+     {% endfor %}
+   ]
+ };
+</script>
+
+<script src='/static/script.js'></script>
 {% endblock %}

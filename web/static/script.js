@@ -1,8 +1,9 @@
-let state = window.state = {
+let state = window.state = INITIAL_STATE || {
   isBigPictureVisible: false,
   allImages: document.querySelectorAll('.post-image'),
   selectedImages: []
 };
+
 
 // Make image bigger on click
 function setUpBigimageViewer() {
@@ -187,9 +188,36 @@ let markImage = (imageE) => {
   hideSideMessage();
 };
 
+
+let selectDbImages = () => {
+  let mark = document.querySelectorAll('.mark-icon');
+  mark.forEach(function(markItem) {
+    state.selectedImages.forEach(function(item) {
+      if(markItem.dataset.markId == item.id){
+        markItem.dataset.isMarked=true;
+        markItem.style.backgroundImage="url('/static/icons/mark.png')";}
+    });
+  });
+};
+
+
 let hideSideMessage = () =>{
   if (state.selectedImages.length > 0) {
     document.querySelector('.marked-header').style.display='none';
+    //selectDbImages();
+   // document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+  }
+  else{
+    document.querySelector('.marked-header').style.display='';
+  }
+};
+
+
+let showDbImages = () =>{
+  if (state.selectedImages.length > 0) {
+    document.querySelector('.marked-header').style.display='none';
+    selectDbImages();
+     document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
   }
   else{
     document.querySelector('.marked-header').style.display='';
@@ -237,6 +265,7 @@ let selectImage = (imageE) => {
   setupSelectedImageSidebar();
 };
 
+
 // Add event listener on cross icon
 function setUpRemoveSidebarItem() {
   let allItems = document.querySelectorAll('.remove-schedule');
@@ -259,7 +288,7 @@ let removeSidebarItem = (removeE) => {
 
   let removedImage = state.selectedImages.splice(index, 1);
   let allImages = document.querySelectorAll('.mark-icon');
-
+  window.r = removedImage;
   allImages.forEach((unMark) =>{
     if (removedImage[0].id === unMark.dataset.markId) {
       unMark.style.backgroundImage="url('/static/icons/un-mark.png')";
@@ -366,8 +395,8 @@ let scheduleToDb = (button, scheduleUrl) => {
 // function takes url and returns inner html
 function makeSelectedImagesHtml (urls) {
   let html = '';
-  for (let key in state.selectedImages) {
-    let value = state.selectedImages[key];
+  for (let key in urls) {
+    let value = urls[key];
 
     let source = `<img class='small-image' src=${value.src}>`;
     if( value.src.endsWith('mp4'))source = `<video mute class='small-image' src='${value.src}'></video>`;
@@ -375,7 +404,7 @@ function makeSelectedImagesHtml (urls) {
     if (value.publishTime !== ''){
       html += `<div class="post-time">
                  <span class='remove-schedule'></span>
-                 <p class="side-title">${value.title}</p>
+                <p class="side-title">${value.title}</p>
                  <p class="set">Set time</p>
                  <input type='text' name='text' class='show-time' value=${value.publishTime} disabled>
                  <input type="time" name="time" placeholder="Set time" class="set-time" style=display:none;'>
@@ -417,9 +446,10 @@ function timePicker(){
   });
 }
 
- setUpForPublish();
+setUpForPublish();
 setUpBigimageViewer();
 nextBigImage();
 previousBigImage();
 hideBigImage();
 setUpSelectImage();
+showDbImages();
