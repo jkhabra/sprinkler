@@ -414,10 +414,11 @@ function timePicker(){
   });
 }
 
+// select images that stored in database
+let preScheduledPosts = () => {
+  let allMarkIcons = document.querySelectorAll('.mark-icon');
 
-let markDbImages = () => {
-  let mark = document.querySelectorAll('.mark-icon');
-  mark.forEach(function(markItem) {
+  allMarkIcons.forEach(function(markItem) {
     state.selectedImages.forEach(function(item) {
       if(markItem.dataset.markId == item.id){
         markItem.dataset.isMarked=true;
@@ -431,7 +432,7 @@ let markDbImages = () => {
 let hideSideMessage = () =>{
   if (state.selectedImages.length > 0) {
     document.querySelector('.marked-header').style.display='none';
-    markDbImages();
+    preScheduledPosts();
   }
   else{
     document.querySelector('.marked-header').style.display='';

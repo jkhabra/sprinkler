@@ -57,19 +57,22 @@ def accept_fb_token():
         email = profile['email']
 
         db_session = get_session()
-        s_user = db_session.query(User).filter(User.email == email).one()
-        global current_user
-        current_user = s_user.id
+        sprinkler_user = db_session.query(User).filter(User.email == email).all()
 
-        if not s_user:
+        if not sprinkler_user:
             new_user = User(email=email, name=name, access_token=fb_token)
             db_session.add(new_user)
             db_session.commit()
         else:
-            s_user.access_token = fb_token
+            for s in sprinkler_user:
+                s.access_token = fb_token
+
+        for s in sprinkler_user:
+            global current_user
+            current_user = s
 
         db_session.commit()
-        login_user(s_user)
+        login_user(current_user)
         db_session.close()
 
         return redirect('/posts')
@@ -85,7 +88,7 @@ def show_posts():
     """
     db_session = get_session()
     data = db_session.query(Post, Image).join(Image).filter(Image.local_url != None)
-    schedule_posts = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user)
+    schedule_posts = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id)
     schedule_data = []
 
     for i in schedule_posts:
@@ -116,7 +119,7 @@ def publish_photo():
     try:
         image_title = db_session.query(Post).filter(Post.id == image_id.split('.')[0]).one()
         image_path = 'web/static/images/{}'.format(image_id)
-        accept_token = db_session.query(User).filter(User.id == current_user).one()
+        accept_token = db_session.query(User).filter(User.id == current_user.id).one()
     except Exception as error:
         return jsonify({
             'status': 'error',
@@ -147,11 +150,10 @@ def schedule_post():
     post_id = request.args.get('post_id')
     publish_time = request.args.get('publish_time')
     db_session = get_session()
-    user_id = current_user
 
     try:
         if not db_session.query(SchedulePost).filter(SchedulePost.post_id == post_id).all():
-            new_schedule = SchedulePost(publish_time=publish_time, post_id=post_id, user_id=user_id)
+            new_schedule = SchedulePost(publish_time=publish_time, post_id=post_id, user_id=current_user.id, status=False)
             db_session.add(new_schedule)
             db_session.commit()
     except Exception as error:

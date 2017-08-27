@@ -72,6 +72,7 @@ class SchedulePost(Base):
     post = relationship(Post)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    status = Column(Boolean, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     update_at = Column(DateTime, default=datetime.datetime.utcnow)
 
