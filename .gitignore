@@ -1,4 +1,6 @@
 *.db*
 *.pyc
 *.DS_Store
+*web/static/.tern-port
+*web/static/images/
 __pycache__

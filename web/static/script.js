@@ -189,47 +189,13 @@ let markImage = (imageE) => {
 };
 
 
-let selectDbImages = () => {
-  let mark = document.querySelectorAll('.mark-icon');
-  mark.forEach(function(markItem) {
-    state.selectedImages.forEach(function(item) {
-      if(markItem.dataset.markId == item.id){
-        markItem.dataset.isMarked=true;
-        markItem.style.backgroundImage="url('/static/icons/mark.png')";}
-    });
-  });
-};
-
-
-let hideSideMessage = () =>{
-  if (state.selectedImages.length > 0) {
-    document.querySelector('.marked-header').style.display='none';
-    //selectDbImages();
-   // document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-  }
-  else{
-    document.querySelector('.marked-header').style.display='';
-  }
-};
-
-
-let showDbImages = () =>{
-  if (state.selectedImages.length > 0) {
-    document.querySelector('.marked-header').style.display='none';
-    selectDbImages();
-     document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-  }
-  else{
-    document.querySelector('.marked-header').style.display='';
-  }
-};
-
 let setupSelectedImageSidebar = () => {
   timePicker();
   setUpRemoveSidebarItem();
   setupScheduleButton();
   setupCancelButton();
 };
+
 
 // remove image from selected images state
 let unselectImage = (imageE) => {
@@ -243,10 +209,9 @@ let unselectImage = (imageE) => {
       .indexOf(imageE.parentNode.parentNode.querySelector('.post-image').src);
 
   state.selectedImages.splice(index, 1);
-  document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-
-  setupSelectedImageSidebar();
+  hideSideMessage();
 };
+
 
 // Add image to selected images state
 let selectImage = (imageE) => {
@@ -260,9 +225,7 @@ let selectImage = (imageE) => {
   let time = '';
 
   state.selectedImages.push({title:title, src:imageSrc, id:markId, publishTime:time});
-  document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
-
-  setupSelectedImageSidebar();
+  hideSideMessage();
 };
 
 
@@ -280,25 +243,31 @@ function setUpRemoveSidebarItem() {
 }
 
 // remove selected image form side-bar when click on cross icon in sidebar item
-let removeSidebarItem = (removeE) => {
+let removeSidebarItem = (removeL) => {
   let index = state
       .selectedImages
       .map(o => o.src)
-      .indexOf(removeE.parentNode.querySelector('.small-image').src);
-
+      .indexOf(removeL.parentNode.querySelector('.small-image').src);
   let removedImage = state.selectedImages.splice(index, 1);
-  let allImages = document.querySelectorAll('.mark-icon');
-  window.r = removedImage;
-  allImages.forEach((unMark) =>{
-    if (removedImage[0].id === unMark.dataset.markId) {
+
+  unMarkImage(removedImage);
+  hideSideMessage();
+  scheduleToDb(removeL);
+};
+
+
+// remove mark icon and add un-mark icon when click on cross icon in sidebar item
+let unMarkImage = (removedImage) => {
+  let allMarkIcons = document.querySelectorAll('.mark-icon');
+
+  allMarkIcons.forEach((unMark) =>{
+    if (removedImage[0].id === unMark.dataset.markId)
+    {
       unMark.style.backgroundImage="url('/static/icons/un-mark.png')";
       unMark.dataset.isMarked = false;
-      document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+      hideSideMessage();
     }
   });
-  hideSideMessage();
-  setupSelectedImageSidebar();
-  scheduleToDb(removeE);
 };
 
 // Add cancel button when schedule button is clicked
@@ -348,7 +317,6 @@ function setupCancelButton() {
   allCancelButtons.forEach((cancelButton) =>{
     cancelButton.addEventListener('click', function(event){
       let button = event.target;
-
       button.style.display='none';
       button.parentNode.querySelector('.schedule').style.display='';
       button.parentNode.querySelector('.show-time').style.display='none';
@@ -446,10 +414,37 @@ function timePicker(){
   });
 }
 
+
+let markDbImages = () => {
+  let mark = document.querySelectorAll('.mark-icon');
+  mark.forEach(function(markItem) {
+    state.selectedImages.forEach(function(item) {
+      if(markItem.dataset.markId == item.id){
+        markItem.dataset.isMarked=true;
+        markItem.style.backgroundImage="url('/static/icons/mark.png')";
+      }
+    });
+  });
+};
+
+// hide sidebar message if no image is selected otherwise create selected images in sidebar
+let hideSideMessage = () =>{
+  if (state.selectedImages.length > 0) {
+    document.querySelector('.marked-header').style.display='none';
+    markDbImages();
+  }
+  else{
+    document.querySelector('.marked-header').style.display='';
+  }
+  document.querySelector('.marked-images').innerHTML = makeSelectedImagesHtml(state.selectedImages);
+  setupSelectedImageSidebar();
+};
+
+
+hideSideMessage();
 setUpForPublish();
 setUpBigimageViewer();
 nextBigImage();
 previousBigImage();
 hideBigImage();
 setUpSelectImage();
-showDbImages();
