@@ -5,6 +5,7 @@ from facebook import GraphAPI
 from os import path
 from models import Post, Image, User, SchedulePost
 from db import get_session
+from huey import RedisHuey
 
 app = Flask(__name__)
 
@@ -12,6 +13,7 @@ app.config.update(dict(
     SECRET_KEY = 'admi90900n'
 ))
 
+huey = RedisHuey()
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -187,3 +189,28 @@ def cancel_schedule_post():
         'status': 'success',
         'message': 'Schedule has been canceled :('
     })
+
+@huey.task()
+def scheduler(post_id, user_id):
+    db_session = get_session()
+
+    try:
+        image_title = db_session.query(Post).filter(Post.id == post_id).one()
+        image_path = db_session.query(Image).filter(Image.id == post_id).one()
+        accept_token = db_session.query(User).filter(User.id == user_id).one()
+    except Exception as error:
+        print("There is some kind of error")
+    try:
+        pathhh= 'web/'+image_path.local_url
+        graph = GraphAPI(accept_token.access_token)
+        image = open(path.abspath(pathhh), 'rb')
+        graph.put_photo(image.read(), message=image_title.title)
+
+        change_status = db_session.query(SchedulePost).filter(SchedulePost.post_id == post_id).one()
+        change_status.status = True 
+        db_session.commit()
+        db_session.close()
+    except Exception as error:
+        print('Access token expires ')
+
+    print("post has been published")
