@@ -28,6 +28,22 @@
     font-family: Georgia;
 }
 
+.bell{
+  width: 3em;
+  height: 2em;
+  margin: 16px -15px 0px 0px;
+  cursor: pointer;
+
+}
+
+.noti {
+  width: 100%;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url(/static/icons/bell.png);
+}
+
 .dropdown .dropbtn {
   border: none;
   outline: none;
@@ -79,6 +95,37 @@
   margin: 70px 0px 10px 75px;
   font-family: Verdana;
   color: #3D3D3D;
+}
+
+.noti-container {
+  background: #ffffff;
+  z-index: 96;
+  position: absolute;
+  right: 13em;
+  top: 2.5em;
+  outline: none;
+  box-sizing: border-box;
+  width: 480px;
+  height: 448px;
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+}
+.noti-message{
+  background-color: #eeeeee;
+  min-height: 48px;
+  display: flex;
+  -ms-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.noti-message2{
+  margin-left: 16px;
+  background: #eeeeee;
+  font-size: 1.5vw;
+  font-family: Roboto, Arial, sans-serif;
+  font-weight: 300;
 }
 
 .side-options {

@@ -441,7 +441,23 @@ let hideSideMessage = () =>{
   setupSelectedImageSidebar();
 };
 
+// show notifications when click on bell icon
+let showNotifications = () => {
+  let bellIcon = document.querySelector('.noti');
 
+  bellIcon.addEventListener('click', function(event){
+    //let target = event.target;
+    document.querySelector('.noti-container').style.display='';
+  });
+  document.body.addEventListener('click', (event) => {
+    let target = event.target;
+    if (target !== document.querySelector('.noti')){
+      document.querySelector('.noti-container').style.display='none';
+    }
+  });
+};
+
+showNotifications();
 hideSideMessage();
 setUpForPublish();
 setUpBigimageViewer();
