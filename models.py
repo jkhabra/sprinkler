@@ -76,6 +76,15 @@ class SchedulePost(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     update_at = Column(DateTime, default=datetime.datetime.utcnow)
 
+class Notification(Base):
+    __tablename__ = 'notification'
+    id = Column(Integer, primary_key=True)
+    status = Column(Boolean, nullable=False)
+    post_id = Column(Integer, ForeignKey('post.id'))
+    post = relationship(Post)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    update_at = Column(DateTime, default=datetime.datetime.utcnow)
+
 class Comments(Base):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True)

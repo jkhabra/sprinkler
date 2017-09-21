@@ -33,7 +33,12 @@
           {% endif %}
         </li>
         <li class="nav-items bell">
+          {% if request.path == '/' %}
+          <div class='noti' style='display:none;'></div>
+          {% else %}
           <div class='noti'></div>
+          <div class='count' style='display:none;'></div>
+          {% endif %}
         </li>
       </ul>
     </nav>

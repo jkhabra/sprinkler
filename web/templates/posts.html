@@ -6,6 +6,20 @@
     <div class='noti-message'>
       <h2 class='noti-message2'>Notifications</h2>
     </div>
+    <div class='show-noti'>
+      <ui class='noti-list'>
+        {% for n in noti %}
+        <li class='noti-item'>
+          <div class='noti-thum' style='background-image:url({{n.src}})'></div>
+          <div class='noti-title'>
+            <p class='noti-title2'>{{n.title}} </p>
+            <p class='noti-text2'>Post has been successfully published</p>
+            <span style='font-weight:400;'>Published on: {{n.publish_time}}</span>
+          </div>
+        </li>
+        {% endfor %}
+      </ui>
+    </div>
     <div class='no-noti'>
       <div class='show-bell noti'></div>
       <div class='noti-text'>

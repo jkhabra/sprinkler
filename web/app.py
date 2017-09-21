@@ -91,15 +91,22 @@ def show_posts():
     db_session = get_session()
     data = db_session.query(Post, Image).join(Image).filter(Image.local_url != None)
     schedule_posts = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id)
+    notification = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id, SchedulePost.status == True)
     schedule_data = []
+    noti_data = []
 
     for i in schedule_posts:
         title = db_session.query(Post).filter(Post.id == i.post_id).one()
         src = db_session.query(Image).filter(Image.post_id == i.post_id).one()
         schedule_data.append({'id':i.post_id, 'publish_time':i.publish_time, 'title':title.title, 'src':src.local_url})
+
+    for k in notification:
+        t = db_session.query(Post).filter(Post.id == k.post_id).one()
+        src = db_session.query(Image).filter(Image.post_id == k.post_id).one()
+        noti_data.append({'publish_time':k.publish_time, 'title':t.title, 'src':src.local_url})
     db_session.close()
 
-    return render_template('posts.html', posts=data, schedule=schedule_data)
+    return render_template('posts.html', posts=data, schedule=schedule_data, noti=noti_data)
 
 
 @app.route('/page_selection')
