@@ -1,7 +1,8 @@
 let state = window.state = INITIAL_STATE || {
   isBigPictureVisible: false,
   allImages: document.querySelectorAll('.post-image'),
-  selectedImages: []
+  selectedImages: [],
+  count: document.querySelector('.noti-list').getElementsByTagName('li').length
 };
 
 
@@ -451,12 +452,46 @@ let showNotifications = () => {
   });
   document.body.addEventListener('click', (event) => {
     let target = event.target;
-    if (target !== document.querySelector('.noti')){
+    if (target !== document.querySelector('.noti')) {
       document.querySelector('.noti-container').style.display='none';
     }
   });
 };
 
+
+let countNotifications = () => {
+  //let count = document.querySelector('.noti-list').getElementsByTagName('li').length;
+  let hide_count = document.querySelector('.noti');
+
+  hide_count.addEventListener('click', function(event){
+    document.querySelector('.count').style.display='none';
+  });
+
+  if (state.count > 0) {
+    document.querySelector('.count').innerHTML = state.count;
+    document.querySelector('.count').style.display='';
+    document.querySelector('.no-noti').style.display='none';
+  }
+  else{
+    document.querySelector('.show-noti').style.display='none';
+    document.querySelector('.no-noti').style.display='';
+  }
+};
+
+let removeNotification = () => {
+  let notifications = document.querySelectorAll('.remove-noti');
+  notifications.forEach((notification) =>{
+    notification.addEventListener('click', function(event){
+      let crossIcon = event.target;
+      crossIcon.parentElement.parentElement.remove();
+      state.count -= 1;
+      countNotifications();
+    });
+  });
+};
+
+removeNotification();
+countNotifications();
 showNotifications();
 hideSideMessage();
 setUpForPublish();
