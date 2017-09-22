@@ -449,23 +449,23 @@ let showNotifications = () => {
   bellIcon.addEventListener('click', function(event){
     //let target = event.target;
     document.querySelector('.noti-container').style.display='';
+    document.querySelector('.count').remove();
   });
+  hideDiv(bellIcon, '.noti-container');
+};
+
+// hide div when click outside
+let hideDiv = (div1, div2) => {
   document.body.addEventListener('click', (event) => {
     let target = event.target;
-    if (target !== document.querySelector('.noti')) {
-      document.querySelector('.noti-container').style.display='none';
+    if (target !== div1) {
+      document.querySelector(div2).style.display='none';
     }
   });
 };
 
-
 let countNotifications = () => {
   //let count = document.querySelector('.noti-list').getElementsByTagName('li').length;
-  let hide_count = document.querySelector('.noti');
-
-  hide_count.addEventListener('click', function(event){
-    document.querySelector('.count').style.display='none';
-  });
 
   if (state.count > 0) {
     document.querySelector('.count').innerHTML = state.count;
@@ -490,6 +490,18 @@ let removeNotification = () => {
   });
 };
 
+// show sidebar on click in tablet mode
+let showSidebar = () => {
+  let sideBar = document.querySelector('.menu');
+
+  sideBar.addEventListener('click', function(event){
+    let target = event.target;
+    document.querySelector('.side-options').style.visibility='visible';
+  });
+};
+
+
+showSidebar();
 removeNotification();
 countNotifications();
 showNotifications();
