@@ -90,7 +90,7 @@ def show_posts():
     """
     db_session = get_session()
     data = db_session.query(Post, Image).join(Image).filter(Image.local_url != None)
-    schedule_posts = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id)
+    schedule_posts = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id, SchedulePost.status == False)
     notification = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id, SchedulePost.status == True)
     schedule_data = []
     noti_data = []

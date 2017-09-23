@@ -22,19 +22,14 @@
           <a class='nav-links' href='/logout'> Log Out</a>
           {% endif %}
         </li>
+        <li class="nav-items" style='display:none;'>
+          <div class="menu"></div>
+        </li>
         <li class="nav-items">
           {% if request.path == '/' %}
-          <a class="nav-links" style='display:none' href="/">Categories</a>
+            <div class='menu' style='display:none;'></div>
           {% else %}
-          <!-- <a class="dropdown-toggle nav-links" data-toggle="dropdown" href="#" id="button1">Categories</a> -->
-          <div class="dropdown nav-liks">
-            <a class="dropbtn nav-links" data-toggle="dropdown" href="#" id="button1">Categories</a>
-            <div class="dropdown-content">
-              <a href="#">Funny</a>
-              <a href="#">Gifs</a>
-              <a href="#">Pics</a>
-            </div>
-          </div>
+            <div class='menu category'></div>
           {% endif %}
         </li>
         <li class="nav-items bell">
