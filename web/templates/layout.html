@@ -2,6 +2,7 @@
   <head>
     <title>Sprinkler</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   </head>
   <body>
 
@@ -32,11 +33,11 @@
             <div class='menu category'></div>
           {% endif %}
         </li>
-        <li class="nav-items bell">
+        <li class="nav-items">
           {% if request.path == '/' %}
-          <div class='noti' style='display:none;'></div>
+          <div class='noti menu' style='display:none;'></div>
           {% else %}
-          <div class='noti'></div>
+          <div class='noti menu'></div>
           <div class='count' style='display:none;'></div>
           {% endif %}
         </li>

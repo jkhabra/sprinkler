@@ -28,9 +28,9 @@
 
 .menu {
   background-image: url(/static/icons/menu.png);
-  height: 1.5em;
-  width: 1.5em;
-  margin: 14px 10px 0px 10px;
+  height: 1.2em;
+  width: 1.2em;
+  margin: 19px;
   cursor: pointer;
   background-repeat: no-repeat;
   background-size: contain;
@@ -65,24 +65,15 @@
 
 .nav-items{
   float: right;
-  margin-right: 5px;
 }
 
 .nav-links{
     display: inline-block;
     color: #fff;
     text-align: center;
-    padding: 17px 10px;
+    padding: 17px 17px;
     text-decoration: none;
     font-family: Georgia;
-}
-
-.bell{
-  width: 3em;
-  height: 2em;
-  margin: 16px -10px 0px 0px;
-  cursor: pointer;
-  position: relative;
 }
 
 .count {
@@ -96,15 +87,11 @@
   font-size: 10px;
   text-align: center;
   cursor: pointer;
-  top: -7px;
-  right: 18px;
+  top: 8px;
+  margin-left: 30px;
 }
 
 .noti {
-  width: 100%;
-  height: 20px;
-  background-repeat: no-repeat;
-  background-size: contain;
   background-image: url(/static/icons/bell.png);
 }
 
@@ -255,14 +242,15 @@
 }
 
 .marked-header{
+  width: 7em;
   line-height: 1.7;
-  font-size: 2.3vw;
+  font-size: 2em;
   font-family: Verdana;
   text-align: center;
-  padding: 20px;
-  margin-top: 3em;
+  padding-top: 4em;
+  margin: auto;
   cursor: pointer;
-  text-shadow: 0 0 5px #fff, 2px 3px 10px rgba(0,0,0,0.45);
+  text-shadow: 0 0 5px #fff, 2px 3px 10px rgba(0,0,0,0.39);
 }
 
 .marked-images {
@@ -330,13 +318,13 @@
 .set {
   grid-column: 1;
   grid-row: 2;
-  font-size: 1vw;
+  font-size: 12.5px;
   color: #fff;
   margin-left: 7em;
 }
 
 .done {
-  font-size: 1vw;
+  font-size: 12.5px;
   border: 1px solid #33987a;
   color: #fff;
   width: 6em;
@@ -514,7 +502,7 @@
 
 .thumb {
   height: 25em;
-  width: 25em;
+  width: 95%;
   cursor: zoom-in;
   position: relative;
 }
@@ -594,22 +582,23 @@
 .mark-container{
   position: absolute;
   background: rgba(0, 0, 0, 0.50);
-  width: 9%;
-  height: 2.3em;
+  width: 40px;
+  height: 2.5em;
   border-radius: 50%;
-  right: 3px;
+  top: 2.7em;
+  right: 5px;
   z-index: 85;
   cursor: pointer;
 }
 
 .mark-icon {
-  width: 75%;
+  width: 30px;
   background-image: url(/static/icons/un-mark.png);
   position: absolute;
   height: 2em;
   background-repeat: no-repeat;
   background-size: contain;
-  margin: 5px 4.3px;
+  margin: 5px 5px;
 }
 
 .post-image {
@@ -649,7 +638,7 @@
   position: absolute;
   padding: 25px;
   width: 100%;
-  z-index: 95;
+  z-index: 97;
   color: #fff;
   text-align: center;
 }
@@ -717,6 +706,7 @@ a.fb-button {
 }
 
 /* styles for tablets */
+
 @media screen and (min-width: 1131px)
 and (max-width: 1170px) {
   .post-list {
@@ -726,15 +716,10 @@ and (max-width: 1170px) {
   .side-options {
     width: 22%;
   }
-
-  .marked-header {
-    font-size: 2.5vw;
-    padding: 30px;
-  }
 }
 
 /* styles for tablets screen2 */
-@media screen and (min-width: 1100px)
+@media screen and (min-width: 951px)
 and (max-width: 1130px) {
   .post-list {
     grid-template-columns: 90%;
@@ -742,116 +727,20 @@ and (max-width: 1130px) {
   }
 
   .thumb {
-    width: 45em;
+    width: 75%;
   }
 
   .publish-button {
     font-size: 15px;
   }
 
-  .mark-container {
-    width: 5%;
-    right: 8px;
-    top: 2.8em;
-  }
-
   .side-options {
-    width: 22%;
-  }
-
-  .marked-header {
-    font-size: 2.5vw;
-    padding: 30px;
+    width: 25%;
   }
 }
 
 /* styles for tablets screen3 */
-@media screen and (min-width: 1025px)
-and (max-width: 1099px) {
-  .post-list {
-    grid-template-columns: 90%;
-    padding: 3em 0em 5em 2em;
-  }
-
-  .thumb {
-    width: 45em;
-  }
-
-  .publish-button {
-    font-size: 15px;
-  }
-
-  .mark-container {
-    width: 5%;
-    right: 8px;
-    top: 2.8em;
-  }
-
-  .side-options {
-    width: 25%;
-  }
-
-  .marked-header {
-    font-size: 2.7vw;
-    padding: 45px;
-  }
-
-  .set-time, .show-time {
-    margin-left: 7em;
-  }
-}
-
-/* styles for tablets screen4 */
-@media screen and (min-width: 951px)
-and (max-width: 1024px) {
-  .post-list {
-    grid-template-columns: 90%;
-    padding: 3em 0em 5em 2em;
-  }
-
-  .thumb {
-    width: 35em;
-  }
-
-  .publish-button {
-    font-size: 15px;
-  }
-
-  .mark-container {
-    width: 6%;
-    right: 8px;
-    top: 2.8em;
-    height: 2.2em;
-  }
-
-  .mark-icon {
-    margin: 5px 3.3px;
-  }
-
-  .side-options {
-    width: 25%;
-  }
-
-  .marked-header {
-    font-size: 2.7vw;
-    padding: 45px;
-  }
-
-  .set {
-    font-size: 1.2vw;
-  }
-
-  .set-time, .show-time {
-    margin-left: 7.7em;
-  }
-
-  .done {
-    font-size: 1.2vw;
-  }
-}
-
-/* styles for tablets screen5 */
-@media screen and (min-width: 821px)
+@media screen and (min-width: 841px)
 and (max-width: 950px) {
   .post-list {
     grid-template-columns: 90%;
@@ -859,22 +748,11 @@ and (max-width: 950px) {
   }
 
   .thumb {
-    width: 35em;
+    width: 75%;
   }
 
   .publish-button {
     font-size: 15px;
-  }
-
-  .mark-container {
-    width: 6%;
-    right: 8px;
-    top: 2.8em;
-    height: 2.2em;
-  }
-
-  .mark-icon {
-    margin: 5px 3.3px;
   }
 
   .side-options {
@@ -886,8 +764,7 @@ and (max-width: 950px) {
   }
 
   .marked-header {
-    font-size: 2.7vw;
-    padding: 21px;
+    font-size: 1.8em;
   }
 
   .post-time {
@@ -898,49 +775,57 @@ and (max-width: 950px) {
     margin-left: -1.7em;
   }
 
-  .set {
-    font-size: 1.3vw;
-  }
-
   .set-time, .show-time {
-    margin-left: 7.7em;
-  }
-
-  .done {
-    font-size: 1.3vw;
+    width: 7em;
   }
 }
 
-/* styles for tablets screen6 */
-@media screen and (min-width: 400px)
-and (max-width: 820px) {
+/* styles for tablets screen4 */
+@media screen and (min-width: 580px)
+and (max-width: 840px) {
   .post-list {
     grid-template-columns: 90%;
-    padding: 3em 0em 5em 2em;
+    padding: 3em 0em 5em 10px;
   }
 
   .thumb {
-    width: 35em;
+    width: 95%;
   }
 
   .publish-button {
     font-size: 15px;
   }
 
-  .mark-container {
-    width: 6%;
-    right: 8px;
-    top: 2.8em;
-    height: 2.2em;
+  .big {
+    padding-top: 8em;
   }
 
-  .mark-icon {
-    margin: 5px 3.3px;
+  .b-image, .big-video {
+    height: 30em;
+    padding: 1em;
+    width: 80%;
+    object-fit: contain;
+  }
+
+  .cancel {
+    top: 5em;
+    right: 4em;
+    width: 1.5em;
+  }
+
+  .right {
+    right: 2em;
+    width: 5%;
+  }
+
+  .left {
+    left: 2em;
+    width: 5%;
   }
 
   .side-options {
     visibility: hidden;
-    width: 35%;
+    width: 40%;
     background: #ffffff;
     padding: 4em 0px 0px 0em;
     top: 0;
@@ -950,13 +835,12 @@ and (max-width: 820px) {
   }
 
   .marked-images {
-    padding: 12%;
+    padding: 10%;
     height: 100%;
   }
 
   .marked-header {
-    font-size: 2.7vw;
-    padding: 21px;
+    font-size: 1.8em;
   }
 
   .post-time {
@@ -967,14 +851,109 @@ and (max-width: 820px) {
     margin-left: -1.7em;
   }
 
-  .set {
-    font-size: 1.3vw;
+  .set-time, .show-time {
+    width: 7em;
+  }
+}
+
+/* styles for mobile screen1 */
+@media screen and (min-width: 300px)
+and (max-width: 579px) {
+  .logo {
+    height: 50px;
+    margin-left: 0px;
+  }
+
+  .sprink {
+    padding: 17px 15px;
+  }
+
+  .nav-links {
+    padding: 17px 15px;
+  }
+
+  .menu {
+    height: 1.1em;
+    width: 1.1em;
+    margin: 17px;
+  }
+
+  .header {
+    margin: 70px 0px 10px 0px;
+    text-align: center;
+  }
+
+  .post-list {
+    grid-template-columns: 1fr;
+    padding: 3em 0em 5em 10px;
+  }
+
+  .thumb {
+    width: 95%;
+  }
+
+  .publish-button {
+    font-size: 17px;
+    width: 95%;
+  }
+
+  .big {
+    padding-top: 5em;
+  }
+
+  .b-image, .big-video {
+    height: 30em;
+    padding: 1em;
+    width: 90%;
+    object-fit: contain;
+  }
+
+  .cancel {
+    top: 7em;
+    right: 4em;
+    width: 1.5em;
+  }
+
+  .right {
+    right: 1em;
+    width: 6%;
+  }
+
+  .left {
+    left: 1em;
+    width: 6%;
+  }
+
+  .side-options {
+    visibility: hidden;
+    width: 55%;
+    background: #ffffff;
+    padding: 4em 0px 0px 0em;
+    top: 0;
+    transition-property: opacity;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  .marked-images {
+    padding: 5%;
+    height: 100%;
+  }
+
+  .marked-header {
+    font-size: 1.7em;
+    padding-top: 7em;
+  }
+
+  .post-time {
+    width: 12em;
+  }
+
+  .remove-schedule {
+    margin-left: -1.7em;
   }
 
   .set-time, .show-time {
-    margin-left: 7.7em;
+    width: 7em;
   }
-
-  .done {
-    font-size: 1.3vw;
-  }
+}
