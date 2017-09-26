@@ -116,8 +116,8 @@
   background: #ffffff;
   z-index: 98;
   position: fixed;
-  right: 13em;
-  top: 2.5em;
+  right: 6em;
+  top: 2.8em;
   outline: none;
   box-sizing: border-box;
   width: 480px;
@@ -156,7 +156,7 @@
 .noti-message2{
   margin-left: 16px;
   background: #eeeeee;
-  font-size: 1.5vw;
+  font-size: 17px;
   font-family: Roboto, Arial, sans-serif;
   font-weight: 300;
 }
@@ -544,14 +544,21 @@
   filter: grayscale(100%);
 }
 
+.color {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
 .success, .error {
   z-index: 90;
   font-family: courier;
   position: absolute;
   color: #fff;
-  font-size: 2vw;
+  font-size: 1.8em;
   font-weight: bold;
-  margin: 4em 5em;
   width: 55%;
   line-height: 1.5;
   text-shadow: 0 0 1px #fff, 0 1px 2px rgba(0,0,0,0.45);
@@ -565,7 +572,6 @@
 .spinner{
   position: absolute;
   z-index: 90;
-  margin: 10em 11em;
   border: 5px solid #fff;
   border-bottom: 5px solid rgba(34, 34, 34, 0.03);
   border-radius: 50%;
@@ -783,6 +789,10 @@ and (max-width: 950px) {
 /* styles for tablets screen4 */
 @media screen and (min-width: 580px)
 and (max-width: 840px) {
+  .show{
+    visibility: visible;
+  }
+
   .post-list {
     grid-template-columns: 90%;
     padding: 3em 0em 5em 10px;
@@ -857,8 +867,12 @@ and (max-width: 840px) {
 }
 
 /* styles for mobile screen1 */
-@media screen and (min-width: 300px)
+@media screen and (min-width: 395px)
 and (max-width: 579px) {
+  .show{
+    visibility: visible;
+  }
+
   .logo {
     height: 50px;
     margin-left: 0px;
@@ -881,6 +895,44 @@ and (max-width: 579px) {
   .header {
     margin: 70px 0px 10px 0px;
     text-align: center;
+  }
+
+  .noti-container {
+    width: 75%;
+    height: 400px;
+    right: 3em;
+  }
+
+  .noti-item {
+    padding: 20px 0px 10px 10px;
+  }
+
+  .noti-title {
+    display: grid;
+    grid-template-columns: 80% 8%;
+  }
+
+  .remove-noti {
+    margin-left: 0em;
+    grid-column: 2;
+    grid-row: 1;
+    position: inherit;
+  }
+
+  .noti-title2 {
+    width: 90%;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .noti-text2 {
+    grid-column: 1;
+    grid-row: 2;
+    padding-bottom: 10px;
+  }
+
+  .p-time{
+    grid-row: 3;
   }
 
   .post-list {
@@ -927,6 +979,154 @@ and (max-width: 579px) {
   .side-options {
     visibility: hidden;
     width: 55%;
+    background: #ffffff;
+    padding: 4em 0px 0px 0em;
+    top: 0;
+    transition-property: opacity;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+
+  .marked-images {
+    padding: 5%;
+    height: 100%;
+  }
+
+  .marked-header {
+    font-size: 1.7em;
+    padding-top: 7em;
+  }
+
+  .post-time {
+    width: 12em;
+  }
+
+  .remove-schedule {
+    margin-left: -1.7em;
+  }
+
+  .set-time, .show-time {
+    width: 7em;
+  }
+}
+
+/* styles for mobile screen2 */
+@media screen and (min-width: 100px)
+and (max-width: 394px) {
+  .show{
+    visibility: visible;
+  }
+
+  .logo {
+    height: 37px;
+    margin-left: 0px;
+    margin-top: 9px;
+  }
+
+  .sprink {
+    padding: 9px 0px;
+    margin-left: 3em;
+    font-size: .8rem;
+  }
+
+  .menu {
+    height: 1em;
+    width: 1em;
+    margin: 17px;
+    margin-right: 1px;
+  }
+
+  .nav-links {
+    padding: 17px 15px;
+  }
+
+  .header {
+    margin: 70px 0px 10px 0px;
+    text-align: center;
+  }
+
+  .noti-container {
+    width: 75%;
+    height: 400px;
+    right: 3em;
+  }
+
+  .noti-item {
+    padding: 20px 0px 10px 10px;
+  }
+
+  .noti-title {
+    display: grid;
+    grid-template-columns: 80% 8%;
+  }
+
+  .remove-noti {
+    margin-left: 0em;
+    grid-column: 2;
+    grid-row: 1;
+    position: inherit;
+  }
+
+  .noti-title2 {
+    width: 90%;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .noti-text2 {
+    grid-column: 1;
+    grid-row: 2;
+    padding-bottom: 10px;
+  }
+
+  .p-time{
+    grid-row: 3;
+  }
+
+  .post-list {
+    grid-template-columns: 1fr;
+    padding: 3em 0em 5em 10px;
+  }
+
+  .thumb {
+    width: 95%;
+  }
+
+  .publish-button {
+    font-size: 17px;
+    width: 95%;
+  }
+
+  .big {
+    padding-top: 5em;
+  }
+
+  .b-image, .big-video {
+    height: 30em;
+    padding: 1em;
+    width: 90%;
+    object-fit: contain;
+  }
+
+  .cancel {
+    top: 7em;
+    right: 4em;
+    width: 1.5em;
+  }
+
+  .right {
+    right: 1em;
+    width: 6%;
+  }
+
+  .left {
+    left: 1em;
+    width: 6%;
+  }
+
+  .side-options {
+    visibility: hidden;
+    width: 70%;
     background: #ffffff;
     padding: 4em 0px 0px 0em;
     top: 0;

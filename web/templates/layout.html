@@ -23,16 +23,6 @@
           <a class='nav-links' href='/logout'> Log Out</a>
           {% endif %}
         </li>
-        <li class="nav-items" style='display:none;'>
-          <div class="menu"></div>
-        </li>
-        <li class="nav-items">
-          {% if request.path == '/' %}
-            <div class='menu' style='display:none;'></div>
-          {% else %}
-            <div class='menu category'></div>
-          {% endif %}
-        </li>
         <li class="nav-items">
           {% if request.path == '/' %}
           <div class='noti menu' style='display:none;'></div>
@@ -40,6 +30,16 @@
           <div class='noti menu'></div>
           <div class='count' style='display:none;'></div>
           {% endif %}
+        </li>
+        <li class="nav-items">
+          {% if request.path == '/' %}
+          <div class='menu' style='display:none;'></div>
+          {% else %}
+          <div class='menu category'></div>
+          {% endif %}
+        </li>
+        <li class="nav-items" style='visibility:hidden;'>
+          <div class="menu show"></div>
         </li>
       </ul>
     </nav>
