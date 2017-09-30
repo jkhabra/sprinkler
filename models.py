@@ -80,8 +80,11 @@ class Notification(Base):
     __tablename__ = 'notification'
     id = Column(Integer, primary_key=True)
     status = Column(Boolean, nullable=False)
-    post_id = Column(Integer, ForeignKey('post.id'))
-    post = relationship(Post)
+    types = Column(String(50), nullable=False)
+    message = Column(String(250), nullable=False)
+    thumb = Column(String(100))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     update_at = Column(DateTime, default=datetime.datetime.utcnow)
 
