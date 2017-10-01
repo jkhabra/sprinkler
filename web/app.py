@@ -208,8 +208,18 @@ def remove_count():
             i.status = 'seen'
         db_session.commit()
         db_session.close()
+
+        return jsonify ({
+            'status': 'success',
+            'statusCode': 200
+        })
     except Exception as error:
         print('can not be done')
+        return jsonify ({
+            'status': 'fail',
+            'statusCode': 400,
+            'message': 'Operation not allowed'
+        })
 
 @app.route('/remove-notification')
 def remove_notification():
@@ -221,9 +231,18 @@ def remove_notification():
         old_notification.types = 'done'
         db_session.commit()
         db_session.close()
+
+        return jsonify ({
+            'status': 'success',
+            'statusCode': 200
+        })
     except Exception as error:
         print('can not be done')
-
+        return jsonify ({
+            'status': 'fail',
+            'statusCode': 400,
+            'message': 'Operation not allowed'
+        })
 
 @huey.task()
 def scheduler(post_id, user_id):

@@ -445,6 +445,7 @@ let hideSideMessage = () =>{
 // show notifications when click on bell icon
 let showNotifications = () => {
   let bellIcon = document.querySelector('.noti');
+  const notificationCenter = document.querySelector('.noti-container');
 
   bellIcon.addEventListener('click', function(event){
     //let target = event.target;
@@ -453,7 +454,11 @@ let showNotifications = () => {
     user_id = document.querySelector('.noti-item').dataset.notificationId;
     removeCount(parseInt(user_id));
   });
-  hideDiv(bellIcon, '.noti-container');
+
+  hideDiv([
+    bellIcon,
+    notificationCenter
+  ], '.noti-container');
 };
 
 let counter = () => {
@@ -478,8 +483,6 @@ let removeCount = (userId) => {
   fetch(notificationUrl)
     .then(function(response){
       return response;
-    }).then(function(res) {
-      console.log(res);
     })
     .catch(function(error){
       console.log('There hab been problem with your fetch operation: '+ error.message);
@@ -488,7 +491,6 @@ let removeCount = (userId) => {
 
 
 let countNotifications = () => {
-
   if (state.count > 0) {
     document.querySelector('.no-noti').style.display='none';
     counter();
@@ -503,7 +505,7 @@ let countNotifications = () => {
 let showCategories = () => {
   let cat = document.querySelector('.category');
 
-    cat.addEventListener('click', function(event){
+  cat.addEventListener('click', function(event){
     //let target = event.target;
     document.querySelector('.cat').style.display='';
   });
@@ -511,10 +513,30 @@ let showCategories = () => {
 };
 
 
+const and = (arr) => {
+  for (i of arr) {
+    if (!i) { return false;}
+  }
+
+  return true;
+};
+
 // hide div when click outside
 let hideDiv = (div1, div2) => {
   document.body.addEventListener('click', (event) => {
     let target = event.target;
+
+    if (Array.isArray(div1)) {
+      const boolArray = div1.map(div => !event.path.includes(div));
+      const shallHide = and(boolArray);
+
+      if (shallHide) {
+        document.querySelector(div2).style.display='none';
+      }
+
+      return;
+    }
+
     if (target !== div1) {
       document.querySelector(div2).style.display='none';
     }
@@ -540,20 +562,19 @@ let sendNotificationId = (notificationId) => {
   let notificationUrl = `/remove-notification?noti_id=${notificationId}`;
 
   fetch(notificationUrl)
-    .then(function(response) {
-      return response.json();
-    }).then(function(res) {
-      console.log(res);
+    .then(function(response){
+      return response;
     })
-    .catch(function (error) {
-      console.log('There has been a problem with your fetch operation: ' + error.message);
+    .catch(function(error){
+      console.log('There hab been problem with your fetch operation: '+ error.message);
     });
 };
 
 // show sidebar when click on menu icon mode
-let showSidebar = () => {
+let setupMobileSidebar = () => {
   let sideBar = document.querySelector('.show');
   sideBar.addEventListener('click', function(event){
+    console.log('Show sidebar', event.target);
     sideBar.style.display='none';
     document.querySelector('.side-options').style.visibility='visible';
     document.querySelector('.side-menu').style.display='';
@@ -561,22 +582,25 @@ let showSidebar = () => {
     document.querySelector('.side-border').style.display='';
     document.querySelector('.side-options').style['box-shadow']='0 18px 26px 3px rgba(0, 0, 0, 0.48)';
     document.querySelector('.side-options').style['transition-duration']= '200ms';
-
   });
-  document.body.addEventListener('click', function(event) {
-    let target = event.target;
-    if (target !== sideBar) {
-      sideBar.style.display='';
-      document.querySelector('.side-options').style.visibility='hidden';
-      document.querySelector('.side-menu').style.display='none';
-      document.querySelector('.side-bar-background').style.display='none';
-      document.querySelector('.side-border').style.display='none';
-    }
- });
+
+  document
+    .getElementById('toggle-mobile-sidebar')
+    .addEventListener('click', function(event) {
+      console.warn('Hide sidebar', event.target);
+      let target = event.target;
+      if (target !== sideBar) {
+        sideBar.style.display='';
+        document.querySelector('.side-options').style.visibility='hidden';
+        document.querySelector('.side-menu').style.display='none';
+        document.querySelector('.side-bar-background').style.display='none';
+        document.querySelector('.side-border').style.display='none';
+      }
+    });
 };
 
 showCategories();
-//showSidebar();
+setupMobileSidebar();
 removeNotification();
 countNotifications();
 showNotifications();
