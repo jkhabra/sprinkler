@@ -501,18 +501,6 @@ let countNotifications = () => {
   }
 };
 
-
-let showCategories = () => {
-  let cat = document.querySelector('.category');
-
-  cat.addEventListener('click', function(event){
-    //let target = event.target;
-    document.querySelector('.cat').style.display='';
-  });
-  hideDiv(cat, '.cat');
-};
-
-
 const and = (arr) => {
   for (i of arr) {
     if (!i) { return false;}
@@ -574,7 +562,6 @@ let sendNotificationId = (notificationId) => {
 let setupMobileSidebar = () => {
   let sideBar = document.querySelector('.show');
   sideBar.addEventListener('click', function(event){
-    console.log('Show sidebar', event.target);
     sideBar.style.display='none';
     document.querySelector('.side-options').style.visibility='visible';
     document.querySelector('.side-menu').style.display='';
@@ -587,7 +574,6 @@ let setupMobileSidebar = () => {
   document
     .getElementById('toggle-mobile-sidebar')
     .addEventListener('click', function(event) {
-      console.warn('Hide sidebar', event.target);
       let target = event.target;
       if (target !== sideBar) {
         sideBar.style.display='';
@@ -599,7 +585,7 @@ let setupMobileSidebar = () => {
     });
 };
 
-showCategories();
+
 setupMobileSidebar();
 removeNotification();
 countNotifications();
