@@ -3,7 +3,7 @@ from flask.json import jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user, logout_user
 from facebook import GraphAPI
 from os import path
-from models import Post, Image, User, SchedulePost
+from models import Post, Image, User, SchedulePost, Notification
 from db import get_session
 from huey import RedisHuey
 
@@ -91,7 +91,7 @@ def show_posts():
     db_session = get_session()
     data = db_session.query(Post, Image).join(Image).filter(Image.local_url != None)
     schedule_posts = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id, SchedulePost.status == False)
-    notification = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id, SchedulePost.status == True)
+    notification = db_session.query(Notification).filter(Notification.user_id == current_user.id, Notification.types != 'done')
     schedule_data = []
     noti_data = []
 
@@ -101,9 +101,7 @@ def show_posts():
         schedule_data.append({'id':i.post_id, 'publish_time':i.publish_time, 'title':title.title, 'src':src.local_url})
 
     for k in notification:
-        t = db_session.query(Post).filter(Post.id == k.post_id).one()
-        src = db_session.query(Image).filter(Image.post_id == k.post_id).one()
-        noti_data.append({'publish_time':k.publish_time, 'title':t.title, 'src':src.local_url})
+        noti_data.append({'noti_id':k.id, 'title':k.post_title, 'src':k.thumb, 'message':k.message, 'status':k.status})
     db_session.close()
 
     return render_template('posts.html', posts=data, schedule=schedule_data, noti=noti_data)
@@ -197,6 +195,36 @@ def cancel_schedule_post():
         'message': 'Schedule has been canceled :('
     })
 
+@app.route('/remove-notification-count')
+def remove_count():
+    notification_id = request.args.get('user_id')
+    db_session = get_session()
+
+    try:
+        user = db_session.query(Notification).filter(Notification.id == notification_id).one()
+        old_notification = db_session.query(Notification).filter(Notification.user_id == user.user_id)
+
+        for i in old_notification:
+            i.status = 'seen'
+        db_session.commit()
+        db_session.close()
+    except Exception as error:
+        print('can not be done')
+
+@app.route('/remove-notification')
+def remove_notification():
+    notification_id = request.args.get('noti_id')
+    db_session = get_session()
+
+    try:
+        old_notification = db_session.query(Notification).filter(Notification.id == notification_id).one()
+        old_notification.types = 'done'
+        db_session.commit()
+        db_session.close()
+    except Exception as error:
+        print('can not be done')
+
+
 @huey.task()
 def scheduler(post_id, user_id):
     db_session = get_session()
@@ -214,10 +242,15 @@ def scheduler(post_id, user_id):
         graph.put_photo(image.read(), message=image_title.title)
 
         change_status = db_session.query(SchedulePost).filter(SchedulePost.post_id == post_id).one()
-        change_status.status = True 
+        change_status.status = True
+        new_notificaton = Notification(status='new', types='sucess', message='Post has been successfully published', post_title=image_title.title, thumb=image_path.local_url, user_id=user_id)
+        db_session.add(new_notificaton)
         db_session.commit()
         db_session.close()
     except Exception as error:
+        new_notificaton = Notification(status='new', types='error', message="Post couldn't published try again please",  post_title=image_title.title, thumb=image_path.local_url, user_id=user_id)
+        db_session.add(new_notificaton)
+        db_session.commit()
+        db_session.close()
         print('Access token expires ')
-
     print("post has been published")

@@ -10,13 +10,12 @@
     <div class='show-noti'>
       <ui class='noti-list'>
         {% for n in noti %}
-        <li class='noti-item'>
+        <li class='noti-item' data-notification-id='{{n.noti_id}}'>
           <div class='noti-thum' style='background-image:url({{n.src}})'></div>
           <div class='noti-title'>
             <div class='remove-noti'></div>
             <p class='noti-title2'>{{n.title}} </p>
-            <p class='noti-text2'>Post has been successfully published</p>
-            <span class='p-time' 'style='font-weight:400;'>Published on: {{n.publish_time}}</span>
+            <p class='noti-text2' data-count-status='{{n.status}}'>{{n.message}}</p>
           </div>
         </li>
         {% endfor %}

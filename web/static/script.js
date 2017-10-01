@@ -449,10 +449,67 @@ let showNotifications = () => {
   bellIcon.addEventListener('click', function(event){
     //let target = event.target;
     document.querySelector('.noti-container').style.display='';
-    document.querySelector('.count').remove();
+    document.querySelector('.count').style.display='none';
+    user_id = document.querySelector('.noti-item').dataset.notificationId;
+    removeCount(parseInt(user_id));
   });
   hideDiv(bellIcon, '.noti-container');
 };
+
+let counter = () => {
+  //let status = document.querySelector('.noti-text2').dataset.countStatus;
+  let count = 0;
+  let status = document.querySelectorAll('.noti-text2');
+
+  status.forEach(function(i){
+    if (i.dataset.countStatus === 'new'){
+      count +=1;
+      document.querySelector('.count').innerHTML = count;
+      document.querySelector('.count').style.display='';
+    }
+
+  });
+};
+
+// remove count notifications box when click on bell icon
+let removeCount = (userId) => {
+  let notificationUrl = `/remove-notification-count?user_id=${userId}`;
+
+  fetch(notificationUrl)
+    .then(function(response){
+      return response;
+    }).then(function(res) {
+      console.log(res);
+    })
+    .catch(function(error){
+      console.log('There hab been problem with your fetch operation: '+ error.message);
+    });
+};
+
+
+let countNotifications = () => {
+
+  if (state.count > 0) {
+    document.querySelector('.no-noti').style.display='none';
+    counter();
+  }
+  else{
+    document.querySelector('.show-noti').style.display='none';
+    document.querySelector('.no-noti').style.display='';
+  }
+};
+
+
+let showCategories = () => {
+  let cat = document.querySelector('.category');
+
+    cat.addEventListener('click', function(event){
+    //let target = event.target;
+    document.querySelector('.cat').style.display='';
+  });
+  hideDiv(cat, '.cat');
+};
+
 
 // hide div when click outside
 let hideDiv = (div1, div2) => {
@@ -464,44 +521,62 @@ let hideDiv = (div1, div2) => {
   });
 };
 
-let countNotifications = () => {
-  //let count = document.querySelector('.noti-list').getElementsByTagName('li').length;
-
-  if (state.count > 0) {
-    document.querySelector('.count').innerHTML = state.count;
-    document.querySelector('.count').style.display='';
-    document.querySelector('.no-noti').style.display='none';
-  }
-  else{
-    document.querySelector('.show-noti').style.display='none';
-    document.querySelector('.no-noti').style.display='';
-  }
-};
-
 let removeNotification = () => {
   let notifications = document.querySelectorAll('.remove-noti');
   notifications.forEach((notification) =>{
     notification.addEventListener('click', function(event){
       let crossIcon = event.target;
+      let notificationId = crossIcon.parentElement.parentElement.dataset.notificationId;
       crossIcon.parentElement.parentElement.remove();
       state.count -= 1;
+      sendNotificationId(parseInt(notificationId));
       countNotifications();
     });
   });
 };
 
-// show sidebar on click in tablet mode
-let showSidebar = () => {
-  let sideBar = document.querySelector('.menu');
+// send notification id
+let sendNotificationId = (notificationId) => {
+  let notificationUrl = `/remove-notification?noti_id=${notificationId}`;
 
-  sideBar.addEventListener('click', function(event){
-    let target = event.target;
-    document.querySelector('.side-options').style.visibility='visible';
-  });
+  fetch(notificationUrl)
+    .then(function(response) {
+      return response.json();
+    }).then(function(res) {
+      console.log(res);
+    })
+    .catch(function (error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+    });
 };
 
+// show sidebar when click on menu icon mode
+let showSidebar = () => {
+  let sideBar = document.querySelector('.show');
+  sideBar.addEventListener('click', function(event){
+    sideBar.style.display='none';
+    document.querySelector('.side-options').style.visibility='visible';
+    document.querySelector('.side-menu').style.display='';
+    document.querySelector('.side-bar-background').style.display='';
+    document.querySelector('.side-border').style.display='';
+    document.querySelector('.side-options').style['box-shadow']='0 18px 26px 3px rgba(0, 0, 0, 0.48)';
+    document.querySelector('.side-options').style['transition-duration']= '200ms';
 
-showSidebar();
+  });
+  document.body.addEventListener('click', function(event) {
+    let target = event.target;
+    if (target !== sideBar) {
+      sideBar.style.display='';
+      document.querySelector('.side-options').style.visibility='hidden';
+      document.querySelector('.side-menu').style.display='none';
+      document.querySelector('.side-bar-background').style.display='none';
+      document.querySelector('.side-border').style.display='none';
+    }
+ });
+};
+
+showCategories();
+//showSidebar();
 removeNotification();
 countNotifications();
 showNotifications();

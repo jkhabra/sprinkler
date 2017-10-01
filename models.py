@@ -79,9 +79,10 @@ class SchedulePost(Base):
 class Notification(Base):
     __tablename__ = 'notification'
     id = Column(Integer, primary_key=True)
-    status = Column(Boolean, nullable=False)
+    status = Column(String(100), nullable=False)
     types = Column(String(50), nullable=False)
     message = Column(String(250), nullable=False)
+    post_title = Column(String(500))
     thumb = Column(String(100))
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)

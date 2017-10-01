@@ -211,8 +211,6 @@ box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.
 }
 
 .remove-noti:hover{
-  transform: scale(1.3);
-  margin-left: 25.5em;
   background-image: url(/static/icons/error1.png);
 }
 
