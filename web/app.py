@@ -83,26 +83,27 @@ def accept_fb_token():
 
 
 @app.route('/posts')
-@login_required
+#@login_required
 def show_posts():
     """
     Route to show posts
     """
     db_session = get_session()
     data = db_session.query(Post, Image).join(Image).filter(Image.local_url != None)
-    schedule_posts = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id, SchedulePost.status == False)
-    notification = db_session.query(Notification).filter(Notification.user_id == current_user.id, Notification.types != 'done')
+    print('====================================', data)
+   # schedule_posts = db_session.query(SchedulePost).filter(SchedulePost.user_id == current_user.id, SchedulePost.status == False)
+    #notification = db_session.query(Notification).filter(Notification.user_id == current_user.id, Notification.types != 'done')
     schedule_data = []
     noti_data = []
 
-    for i in schedule_posts:
-        title = db_session.query(Post).filter(Post.id == i.post_id).one()
-        src = db_session.query(Image).filter(Image.post_id == i.post_id).one()
-        schedule_data.append({'id':i.post_id, 'publish_time':i.publish_time, 'title':title.title, 'src':src.local_url})
+  #  for i in schedule_posts:
+   ##     title = db_session.query(Post).filter(Post.id == i.post_id).one()
+   #     src = db_session.query(Image).filter(Image.post_id == i.post_id).one()
+    #    schedule_data.append({'id':i.post_id, 'publish_time':i.publish_time, 'title':title.title, 'src':src.local_url})
 
-    for k in notification:
-        noti_data.append({'noti_id':k.id, 'title':k.post_title, 'src':k.thumb, 'message':k.message, 'status':k.status})
-    db_session.close()
+    #for k in notification:
+    #    noti_data.append({'noti_id':k.id, 'title':k.post_title, 'src':k.thumb, 'message':k.message, 'status':k.status})
+    #db_session.close()
 
     return render_template('posts.html', posts=data, schedule=schedule_data, noti=noti_data)
 

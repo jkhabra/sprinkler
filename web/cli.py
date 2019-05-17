@@ -31,4 +31,4 @@ def web():
     Run the web server
     """
     print('running server for sprinkler')
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

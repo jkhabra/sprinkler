@@ -1,18 +1,24 @@
 * Sprinkler
-- Assistant to easily publish posts on Social media
+- Sprinkler is based on ==Reddit== API. In this app user can login with Facebook and upload posts on Facebook. Even user can set schedule, when ever he/she want to pusblish the post.
+- Sprinkler is built on ==Flask Python==. It uses HTML5, Javascript and Css3.
+- It uses ==docker== so running this project is piece of cake.
 
-** Case Study
+** How to run
+*** Sprinkler can be run without ~Docker~
+- Running this app is really easy, git clone the project
+- Go to project and pip install requirement file and that's it.
+- You ready to go, now hit ==python run.py web== to run server.
+- Before running sever, you should run scrapper so you have some data (post in app)
+- If you won't run scrapper than after login, the screen will be bank because there is no data in you database.
+- Running scrapper is same as running sever
+  ==python run.py scrap
+- There is one more command ==python run.py download_images==
+ - This command download images and videos in local drive.
 
-*** Sam : Pet Store Owner
-- Sam goes to ~fbpostpro~ for posts that he want publish on his Facebook page
-- He login on ~fbpostpro~ with his Facebook account
-- Login connects Facebook page with app
-  - He selects categories which he is interested in
-    - In his case that would be puppies, kittens, and pets
-- He sees 10 posts from his selected categories
-- He selects posts which he want to publish
-- He schedules posts to be published later
-- He can publish maximum 5 posts in a day. However, he can schedule all 10 posts to be published on later days
+*** Sprinkler with Docker
+- Running sprinkler with ==Docker== is even easier
+- Docker gonna handle every thing it own, you don't need to install anything
+- Just cd to the project and run ==docker.compose up==
 
 ** Pages
 
@@ -37,3 +43,6 @@ Settings for each facebook page user has attached to his account
 =show_posts= page displays the posts
 **** Actions
  - User can select posts which he wanna publish
+
+** Screen Shots
+https://imgur.com/GytPCbl
