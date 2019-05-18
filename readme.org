@@ -45,4 +45,4 @@ Settings for each facebook page user has attached to his account
  - User can select posts which he wanna publish
 
 ** Screen Shots
-[[../images/sprinkler.gif][screenshot]]
+[[images/sprinkler.gif]]
